@@ -6,6 +6,7 @@ import Body from '../Body';
 import Appdrawer from './Appdrawer';
 import { jwtDecode } from "jwt-decode";
 import Userbody from '../userBody';
+import Login from './Login';
 
 export default function Apputil() {
   const [page,setPage] = useState(0)
@@ -17,7 +18,13 @@ export default function Apputil() {
   sessionStorage.setItem("token",token)
   var verify = false;
   try
-   {  verify =  jwtDecode(sessionStorage.getItem('token'))}
+   {  verify =  jwtDecode(sessionStorage.getItem('token'))
+  // if(verify.mail && verify.otp)
+  // {
+  //   setMail(verify.mail)
+  //   setOtp(verify.otp)
+  // }
+  }
    catch(e)
    {
     verify = false
@@ -28,7 +35,7 @@ const utoken = sessionStorage.getItem('token')
      {verify && verify.role=='user' ?<Box  sx={{ display: 'flex' }}><CssBaseline />
       <Navbar token={utoken}/>
       <Appdrawer isUpload={isup} token={utoken} page={page} setpage={(v)=>setPage(v)}/>
-      {verify.role=="user"?<Userbody isup={isup} setisup={(v)=>setisup(v)} page={page} datas={verify} username={verify._id} setpage={(v)=>setPage(v)}/>:<Body/>}</Box> : <Box  sx={{ display: 'flex' }}>INVALID USER TRY AGAIN!</Box>}
+      {verify.role=="user"?<Userbody isup={isup} setisup={(v)=>setisup(v)} page={page} datas={verify} username={verify._id} setpage={(v)=>setPage(v)}/>:<Body/>}</Box> : <Login/>}
    </Box>
   );
 }
