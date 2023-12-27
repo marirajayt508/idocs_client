@@ -5,8 +5,9 @@ import Uploaddocs from './Uploaddocs';
 import React,{useEffect,useState} from 'react';
 import axios from 'axios';
 import { api } from '../util';
+import Dashboard from './utils/dashboard';
 
-export default function Userbody ({setpage,page,username,setisup,isup})
+export default function Userbody ({setpage,page,username,setisup,isup,menu})
 {
     const [udata,setUdata] = useState({})
     const [details,setDetails] = useState({
@@ -30,6 +31,9 @@ export default function Userbody ({setpage,page,username,setisup,isup})
     },[])
     return       <Box component="main">
     <Toolbar />
-    {page && isup?<Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>:<Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>}
+   { menu =='Dashboard' && <Dashboard/>}
+   { menu =='Basic Details' && <Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>}
+   { menu == 'Upload Documents' && <Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>}
+    {/* {page && isup?<Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>:<Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>} */}
   </Box>
 }

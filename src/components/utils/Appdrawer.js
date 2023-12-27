@@ -10,8 +10,7 @@ import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 import { jwtDecode } from "jwt-decode";
 
-
-export default function Appdrawer({token,page,setpage,isUpload})
+export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu})
 {
     const role = token.role;
     const drawerWidth = 240; 
@@ -44,8 +43,8 @@ export default function Appdrawer({token,page,setpage,isUpload})
       </List></Box>}
       {    role=='user' && <Box> <List>
         {udraw.map((text, index) => (
-          <ListItem selected={index == page} key={text.name} disablePadding>
-            <ListItemButton onClick={()=>text.trim().toLowerCase()=="uploaddocuments"?setpage(1):setpage(0)}>
+          <ListItem selected={text == menu} key={text.name} disablePadding>
+            <ListItemButton onClick={()=>setmenu(text.trim())}>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -53,9 +52,9 @@ export default function Appdrawer({token,page,setpage,isUpload})
       </List>
 </Box>}
       <Divider /><br/>
-      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><Button variant='contained' color={'success'} >
+      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><Button variant='contained' color={'warning'} >
         Save
-        </Button><br/><Divider /></Box>}
+        </Button><br/><br/><Divider /></Box>}
     </Box>
   </Drawer>
 }
