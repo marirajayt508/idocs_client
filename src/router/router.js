@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from '../components/utils/Login';
-import Apputil from '../components/utils/Apputil';
+import Apputil from '../components/utils/Appcore';
 
 const Iroute = () => {
   return (

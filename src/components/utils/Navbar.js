@@ -14,7 +14,7 @@ export default function Navbar()
     sessionStorage.clear()
     navigate('/')
    }
-    return       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    return       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
     <Toolbar>
       <Typography variant="h6" sx={{fontWeight : "bold"}} noWrap component="div">
        {role=="admin" && <span>iDocs</span>}

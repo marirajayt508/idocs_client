@@ -1,7 +1,7 @@
-import Apputil from "./components/utils/Apputil";
-import Route from "./router/router";
+import Apputil from "./components/utils/Appcore";
+import Iroute from "./router/router";
 function App() {
-  return (<Route/> );
+  return (<Iroute/> );
 }
 
 export default App;

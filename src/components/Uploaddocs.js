@@ -65,7 +65,7 @@ if(!(cfiles.length != uploades.length))
             return   <Grid  container sx={{p:2}} spacing={2}><Grid item xs={3}>
                 <label style={{fontWeight : "bold"}}>{val?.name?.toUpperCase()}</label></Grid>
                 <Grid item xs={3}>     <div>
-      <label style={{backgroundColor : "navy"}} className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root" htmlFor={`upload${val.name}`}>
+      <label  className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root" htmlFor={`upload${val.name}`}>
         Select file
       </label>
       <Input
@@ -80,11 +80,11 @@ if(!(cfiles.length != uploades.length))
         })
      : <Box style={{textAlign : 'center', color : 'green', fontWeight : 'bold'}}>NO DOCUMENTS NEED</Box>}
      </Paper>
-     <Box style={{textAlign : 'center'}}>
-     {/* <Button onClick={()=>{setpage(0)}} variant='contained' >Back</Button> &nbsp; &nbsp; <Button variant="contained" sx={{backgroundColor : "green"}} onClick={()=>{
+     {/* <Box style={{textAlign : 'center'}}> */}
+     <Button onClick={()=>{setpage(0)}} sx={{visibility : 'hidden'}} variant='contained' >Back</Button> &nbsp; &nbsp; <Button variant="contained"  sx={{backgroundColor : "green",visibility : 'hidden'}} onClick={()=>{
         submit()
-     }}>submit</Button> */}
-     </Box>
+     }}>submit</Button>
+     {/* </Box> */}
      </Paper>
   </Box>
 }
