@@ -13,7 +13,7 @@ export default function Userbody ({setpage,page,username,setisup,isup})
     })
     const [uploades,setUploades] = useState({
     })
-    let data =  username.slice(0,-5);
+    let data =  sessionStorage.getItem('un').slice(0,-5);
     useEffect(()=>{
         axios.post(api+"users/get",{
             username : data

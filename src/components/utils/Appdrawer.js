@@ -13,8 +13,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Appdrawer({token,page,setpage,isUpload})
 {
-    const decode = jwtDecode(token)
-    const role = decode.role;
+    const role = token.role;
     const drawerWidth = 240;
     const udraw = ["BASIC DETAILS"]
     if(isUpload)

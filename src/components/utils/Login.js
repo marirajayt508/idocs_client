@@ -10,28 +10,32 @@ import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { api } from '../../util';
 import loginlogo from '../static/login.png'
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({signinDatas}) {
     const [mail,setMail] = useState('')
     const [otp,setOtp] = useState('')
     const [verify,setVrify] = useState(false)
+    const navigate = useNavigate()
 useEffect(()=>{
     const location = window.location.href;
   const url = new URL(location);
   const queryParams = new URLSearchParams(url.search);
   const token = queryParams.get('ut');
+  sessionStorage.clear()
   try
    {  
     let verifys =  jwtDecode(token)
     console.log(verifys)
     setVrify(verifys)
-    setMail(verify.mail)
+    setMail(verify.un)
     setOtp(verify.otp)
-    sessionStorage.setItem('mail',verifys.mail)
+    sessionStorage.setItem('un',verifys.un)
     sessionStorage.setItem('otp',verifys.otp)
-    console.log(mail,otp)
+    sessionStorage.setItem('role',verifys.role)
+    console.log(verifys)
   }
    catch(e)
    {
@@ -41,26 +45,27 @@ useEffect(()=>{
 const signin = ()=>{
   if(verify)
   {
-    axios.post(api+'auth/login',verify).then((res)=>{
+    axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp')}).then((res)=>{
         console.log(res.data)
+        sessionStorage.setItem('un',res.data.status._id)
+        sessionStorage.setItem('role',res.data.status.role)
+        sessionStorage.setItem('mail',res.data.status.mail)
+        navigate('/board')
     }).catch((err)=>{
         alert("LOGIN ERR")
     })
   }
 else
 {
-if(mail.trim().includes('@'))
-{
    axios.post(api+'auth/login',{mail,otp}).then((res)=>{
     console.log(res.data)
+    sessionStorage.setItem('un',res.data.status._id)
+    sessionStorage.setItem('role',res.data.status.role)
+    sessionStorage.setItem('mail',res.data.status.mail)
+    navigate('/board')
 }).catch((err)=>{
     alert("LOGIN ERR")
 })
-}
-else
-{
-    alert('INVALID EMAILID')
-}
 }
 }
   return (
@@ -81,17 +86,19 @@ else
             <img src={loginlogo} width='35' alt="loginlogo"/>
           <Typography componenet="h1" variant="h5">
             Login
-          </Typography>
-          <br/>
-          <br/>
+          </Typography> 
+          <div style={{'border': '1px solid grey','width' : '90px'}}/>
+          <br/>  <br/>
           <Input
             margin="normal"
             required
             fullWidth
-            placeholder="Email Address"
-            name="email"
-            id="email"
-            value={sessionStorage.getItem('mail')}
+            placeholder="Username"
+            name="username"
+            id="username"
+            value={sessionStorage.getItem('un')}
+            onChange={(e)=>setMail(e.target.value)}
+            inputProps={{ style: { textTransform: "uppercase" } }}
           />
           <br/><br/>
           <Input
@@ -99,10 +106,11 @@ else
             required
             fullWidth
             name="password"
-            placeholder="Password"
+            placeholder="PASSWORD"
             type="password"
             id="password"
             value={sessionStorage.getItem('otp')}
+            onChange={(e)=>setOtp(e.target.value)}
           /><br/>
           <Button
             type="submit"
