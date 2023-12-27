@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Input from '@mui/material/Input';
 import React,{useState,useEffect} from 'react';
 
-export default function Basicdetails ({setpage,fields,d,setdetails})
+export default function Basicdetails ({setpage,d,setdetails})
 {
 
     const getVal = (e,val)=>{
@@ -28,14 +28,6 @@ export default function Basicdetails ({setpage,fields,d,setdetails})
                 <label style={{fontWeight : "bold"}}>{"email id".toUpperCase()}</label></Grid>
                 <Grid item xs={3}> <Input value={d.email}  />
           </Grid></Grid>
-  {
-        fields?.map((val)=>{
-            return   <Grid container sx={{p : 1}} spacing={3}><Grid item xs={4}>
-                <label style={{fontWeight : "bold"}}>{val.toUpperCase()}</label></Grid>
-                <Grid item xs={3}> <Input placeholder={`Enter your ${val}`} onChange={((v)=>{getVal(v,val)})}/>
-          </Grid></Grid>
-        })
-     }
      </Box>
      <br/>
      <br/>

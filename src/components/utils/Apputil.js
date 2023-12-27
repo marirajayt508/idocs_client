@@ -32,11 +32,16 @@ const logout = ()=>{
 
   return (
     <Box sx={{ display: 'flex' }}>
-     {signin && signin.role=='user' && <Box  sx={{ display: 'flex' }}><CssBaseline />
-      <Navbar token={signin}/>
+       <Navbar token={signin}/>
       <Appdrawer isUpload={isup} token={signin} page={page} setpage={(v)=>setPage(v)}/>
+     {signin && signin.role=='user' && <Box  sx={{ display: 'flex' }}><CssBaseline />
+      {/* <Navbar token={signin}/>
+      <Appdrawer isUpload={isup} token={signin} page={page} setpage={(v)=>setPage(v)}/> */}
       {signin.role=="user" && <Userbody isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/>}</Box>}
-      {signin.role=="admin" && <Admin/>}
+      {signin && signin.role=='admin' && <Box  sx={{ display: 'flex' }}><CssBaseline />
+      {/* <Navbar token={signin}/>
+      <Appdrawer isUpload={isup} token={signin} page={page} setpage={(v)=>setPage(v)}/> */}
+      {signin.role=="admin" && <Admin/>}</Box>}
    </Box>
   );
 }

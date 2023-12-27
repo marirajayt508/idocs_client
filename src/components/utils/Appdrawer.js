@@ -14,12 +14,9 @@ import { jwtDecode } from "jwt-decode";
 export default function Appdrawer({token,page,setpage,isUpload})
 {
     const role = token.role;
-    const drawerWidth = 240;
-    const udraw = ["BASIC DETAILS"]
-    if(isUpload)
-    {
-        udraw.push("Upload Documents")
-    }
+    const drawerWidth = 240; 
+    const udraw = ["Dashboard","Basic Details","Upload Documents"]
+
     return  <Drawer
     variant="permanent"
     sx={{
@@ -31,12 +28,12 @@ export default function Appdrawer({token,page,setpage,isUpload})
     <Toolbar />
     <Box sx={{ overflow: 'auto' }}>
 {    role=='admin' && <Box> <List>
-        {['Dashboard', 'Iniate Docs', 'Pending Request'].map((text, index) => (
+        {['Dashboard', 'Document Request', 'Pending Approval',"Add Client","Document Galary","Settings"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemText primary={text} />
               {
-                text=="Pending Request" && <Badge badgeContent={4} color="primary"/>
+                text.trim().toLowerCase()=="pendingapproval" && <Badge badgeContent={4} color="primary"/>
               }
             </ListItemButton>
           </ListItem>
@@ -44,18 +41,11 @@ export default function Appdrawer({token,page,setpage,isUpload})
       </List>
       <Divider />
       <List>
-        {['Settings'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
       </List></Box>}
       {    role=='user' && <Box> <List>
         {udraw.map((text, index) => (
-          <ListItem selected={index == page} key={text} disablePadding>
-            <ListItemButton onClick={()=>text=="Upload Documents"?setpage(1):setpage(0)}>
+          <ListItem selected={index == page} key={text.name} disablePadding>
+            <ListItemButton onClick={()=>text.trim().toLowerCase()=="uploaddocuments"?setpage(1):setpage(0)}>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -63,6 +53,9 @@ export default function Appdrawer({token,page,setpage,isUpload})
       </List>
 </Box>}
       <Divider /><br/>
+      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><Button variant='contained' color={'success'} >
+        Save
+        </Button><br/><Divider /></Box>}
     </Box>
   </Drawer>
 }

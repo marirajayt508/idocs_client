@@ -30,6 +30,6 @@ export default function Userbody ({setpage,page,username,setisup,isup})
     },[])
     return       <Box component="main">
     <Toolbar />
-    {page && isup?<Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>:<Basicdetails setdetails={(v)=>setDetails(v)} d={details} fields={udata?.fields} setpage={(v)=>setpage(v)}/>}
+    {page && isup?<Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>:<Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>}
   </Box>
 }
