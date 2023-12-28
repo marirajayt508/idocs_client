@@ -29,7 +29,10 @@ export default function Basicdetails ({setpage,d,setdetails})
                 <Grid item xs={3}> <Input defaultValue={d.email}  />
           </Grid></Grid>
      </Box>
-         {/* <Button sx={{float : "right"}} onClick={()=>{setpage(1)}} variant='contained'>Next</Button><br/> */}
+     <br/>
+        <Box sx={{textAlign : 'center'}}> 
+            <Button onClick={()=>{setpage(1)}} variant='contained' color={'warning'} >save</Button>
+            </Box>
      <br/>
      </Paper>
   </Box>

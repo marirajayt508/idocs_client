@@ -80,11 +80,10 @@ if(!(cfiles.length != uploades.length))
         })
      : <Box style={{textAlign : 'center', color : 'green', fontWeight : 'bold'}}>NO DOCUMENTS NEED</Box>}
      </Paper>
-     {/* <Box style={{textAlign : 'center'}}> */}
-     <Button onClick={()=>{setpage(0)}} sx={{visibility : 'hidden'}} variant='contained' >Back</Button> &nbsp; &nbsp; <Button variant="contained"  sx={{backgroundColor : "green",visibility : 'hidden'}} onClick={()=>{
-        submit()
-     }}>submit</Button>
-     {/* </Box> */}
+     <br/><br/>
+     <Box sx={{textAlign : 'center'}}> 
+            <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'>save</Button>
+            </Box>
      </Paper>
   </Box>
 }

@@ -52,8 +52,8 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu})
       </List>
 </Box>}
       <Divider /><br/>
-      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><Button variant='contained' color={'warning'} >
-        Save
+      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><Button variant='contained' color='success'>
+        Submit
         </Button><br/><br/><Divider /></Box>}
     </Box>
   </Drawer>
