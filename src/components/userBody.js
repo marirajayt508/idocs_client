@@ -1,13 +1,13 @@
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Basicdetails from './Basicdetails';
-import Uploaddocs from './Uploaddocs';
+import Uploaddocuments from './Uploaddocs';
 import React,{useEffect,useState} from 'react';
 import axios from 'axios';
 import { api } from '../util';
 import Dashboard from './utils/Dashboard';
 
-export default function Userbody ({setpage,page,username,setisup,isup,menu})
+export default function Userbody ({setpage,page,username,setisup,isup,menu,udraw})
 {
     const [udata,setUdata] = useState({})
     const [details,setDetails] = useState({
@@ -29,11 +29,19 @@ export default function Userbody ({setpage,page,username,setisup,isup,menu})
             setDetails(details)
         })
     },[])
+    const components = [
+<Dashboard/>,
+<Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>,
+<Uploaddocuments d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>
+    ]
     return       <Box component="main">
     <Toolbar />
-   { menu =='Dashboard' && <Dashboard/>}
-   { menu =='Basic Details' && <Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>}
-   { menu == 'Upload Documents' && <Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>}
-    {/* {page && isup?<Uploaddocs d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>:<Basicdetails setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>} */}
+    {
+        components.map((cmpnt)=>{
+            return <>
+            {cmpnt.type.name.toLowerCase().trim()==menu.toLowerCase().trim().split(' ').join('') && cmpnt}
+            </>
+        })
+    }
   </Box>
 }

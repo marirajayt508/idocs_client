@@ -7,7 +7,7 @@ import React,{useState} from 'react';
 import axios from 'axios';
 import { api } from '../util';
 
-export default function Uploaddocs ({setpage,uploades,setupload,d})
+export default function Uploaddocuments({setpage,uploades,setupload,d,udraw})
 {
     const [ufiles,setUfiles] = useState({});
     const [cfiles,setCfiles] = useState([]);
@@ -56,7 +56,7 @@ if(!(cfiles.length != uploades.length))
 
     return       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
  <Paper sx={{p:5, width : "1000px"}}>
-    <h2>UPLOAD DOCUMENTS</h2>
+    {/* <h2>UPLOAD DOCUMENTS</h2> */}
     <Divider/>
     <br/>
     <Paper sx={{p : 2}}>
@@ -65,8 +65,8 @@ if(!(cfiles.length != uploades.length))
             return   <Grid  container sx={{p:2}} spacing={2}><Grid item xs={3}>
                 <label style={{fontWeight : "bold"}}>{val?.name?.toUpperCase()}</label></Grid>
                 <Grid item xs={3}>     <div>
-      <label  className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root" htmlFor={`upload${val.name}`}>
-        Select file
+      <label  className='btn btn-primary' htmlFor={`upload${val.name}`}>
+      <i class="fa-solid fa-upload"></i> &nbsp; Select file
       </label>
       <Input
         id={`upload${val.name}`}
@@ -82,7 +82,7 @@ if(!(cfiles.length != uploades.length))
      </Paper>
      <br/><br/>
      <Box sx={{textAlign : 'center'}}> 
-            <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'>save</Button>
+            <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'><i class="fa-solid fa-floppy-disk"></i>&nbsp; save</Button>
             </Box>
      </Paper>
   </Box>

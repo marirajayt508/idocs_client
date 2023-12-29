@@ -16,7 +16,7 @@ export default function Basicdetails ({setpage,d,setdetails})
     return       <Box component="main" sx={{  p: 1 }}>
         {/* <button onClick={()=>console.log(d)}>TETS</button> */}
   <Paper sx={{p:2, width : "1000px"}}>
-    <h2>BASIC DETAILS</h2>
+    {/* <h2>BASIC DETAILS</h2> */}
     <Divider/>
     <br/>
     <Box sx={{p : 3}}>
@@ -31,7 +31,7 @@ export default function Basicdetails ({setpage,d,setdetails})
      </Box>
      <br/>
         <Box sx={{textAlign : 'center'}}> 
-            <Button onClick={()=>{setpage(1)}} variant='contained' color={'warning'} >save</Button>
+            <Button onClick={()=>{setpage(1)}} variant='contained' color={'warning'} ><i class="fa-solid fa-floppy-disk"></i> &nbsp; save</Button>
             </Box>
      <br/>
      </Paper>

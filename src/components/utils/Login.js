@@ -46,11 +46,17 @@ const signin = ()=>{
   if(verify)
   {
     axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp')}).then((res)=>{
-        console.log(res.data)
-        sessionStorage.setItem('un',res.data.status._id)
+        if(res.data.status.value??false)
+        {
+          alert("INVALID PASSWORD")
+        }
+        else
+     {   
+      sessionStorage.setItem('un',res.data.status._id)
         sessionStorage.setItem('role',res.data.status.role)
         sessionStorage.setItem('mail',res.data.status.mail)
         navigate('/board')
+      }
     }).catch((err)=>{
         alert("LOGIN ERR")
     })
@@ -58,11 +64,17 @@ const signin = ()=>{
 else
 {
    axios.post(api+'auth/login',{mail,otp}).then((res)=>{
-    console.log(res.data)
+    if(res.data.status.value??false)
+    {
+      alert("INVALID PASSWORD")
+    }
+    else
+{
     sessionStorage.setItem('un',res.data.status._id)
     sessionStorage.setItem('role',res.data.status.role)
     sessionStorage.setItem('mail',res.data.status.mail)
     navigate('/board')
+    }
 }).catch((err)=>{
     alert("LOGIN ERR")
 })
@@ -83,9 +95,10 @@ else
             boxShadow : '2px 2px 4px 7px rgba(0, 0, 0, 0.2)'
           }}
         >
-            <img src={loginlogo} width='35' alt="loginlogo"/>
+            {/* <img src={loginlogo} width='35' alt="loginlogo"/> */}
+           
           <Typography componenet="h1" variant="h5">
-            Login
+          <span className='text-danger'><i class="fa-solid fa-user"/></span> Login
           </Typography> 
           <div style={{'border': '1px solid grey','width' : '90px'}}/>
           <br/>  <br/>
@@ -93,12 +106,11 @@ else
             margin="normal"
             required
             fullWidth
-            placeholder="Username"
+            placeholder="EMAIL ADDRESS"
             name="username"
             id="username"
             value={sessionStorage.getItem('un')}
             onChange={(e)=>setMail(e.target.value)}
-            inputProps={{ style: { textTransform: "uppercase" } }}
           />
           <br/><br/>
           <Input
@@ -110,7 +122,9 @@ else
             type="password"
             id="password"
             value={sessionStorage.getItem('otp')}
-            onChange={(e)=>setOtp(e.target.value)}
+            onChange={(e)=>{
+              setOtp(e.target.value)
+            }}
           /><br/>
           <Button
             type="submit"
@@ -121,7 +135,7 @@ else
                 signin()
             }}
           >
-            Login
+            Login &nbsp; <i class="fa-solid fa-right-to-bracket"></i>
           </Button>
         </Box>
       </Container>

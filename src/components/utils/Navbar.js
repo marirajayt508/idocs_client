@@ -21,6 +21,7 @@ export default function Navbar()
        {role=="user" && <span>{id.slice(0,-5).toUpperCase()}</span>}
        </Typography>
        <Box sx={{position : 'absolute', right:'10px'}}>
+       <i class="fa-solid fa-power-off"/> 
         <Button sx={{color : "white"}} onClick={()=>{
           logout()
         }}>logout</Button></Box> 
