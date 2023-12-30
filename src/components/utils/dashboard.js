@@ -8,11 +8,15 @@ import { Button } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import Card from "@mui/material/Card";
 import CardContent from '@mui/material/CardContent';
+import React,{useState} from "react";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function Dashboard({status,tdatas})
+export default function Dashboard({status,tdatas,popup})
 {
+  const [ps,setPs] = useState([])
+  const [open,setOpen] = useState(false)
   // rgba(75, 192, 192, 0.2)',
   // 'rgba(255, 206, 86, 0.2)',
   let role = sessionStorage.getItem('role');
@@ -93,6 +97,7 @@ export default function Dashboard({status,tdatas})
   name : 'Data Approved',
   icon : 'check'
 }];
+
     return <>
     {/* <br/> */}
     {/* <Grid container  rowSpacing={2} sx={{textAlign : 'center'}} alignContent='center' columnSpacing={{ xs: 10, sm: 20, md: 30 }}>
@@ -121,7 +126,8 @@ export default function Dashboard({status,tdatas})
        {
         cardLable.map((cl)=>{
           return  <div className="col-md-3" style={{clear : 'right'}}>
-          <Card sx={{ minWidth: 200 }}  onClick={()=>{alert('test')}}>
+          <Card sx={{ minWidth: 200 }}  onClick={()=>{
+            popup(cl)}}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { api } from '../util';
 import Dashboard from './utils/Dashboard';
 
-export default function Userbody ({setpage,page,username,setisup,isup,menu,udraw,status,fields,tdatas, uploads})
+export default function Userbody ({setpage,popup,page,username,setisup,isup,menu,udraw,status,fields,tdatas, uploads})
 {
     const [udata,setUdata] = useState({})
     const [details,setDetails] = useState({
@@ -30,7 +30,7 @@ export default function Userbody ({setpage,page,username,setisup,isup,menu,udraw
         })
     },[])
     const components = [
-<Dashboard status={status} tdatas={tdatas}/>,
+<Dashboard popup={()=>popup()} status={status} tdatas={tdatas}/>,
 <Basicdetails fields={fields} setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>,
 <Uploaddocuments uploads={uploads} d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>
     ]

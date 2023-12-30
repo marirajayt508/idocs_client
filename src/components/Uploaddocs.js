@@ -81,7 +81,7 @@ if(!(cfiles.length != uploades.length))
           <Grid item xs={3}>
           {val.status.toLowerCase().includes('approved')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('approved') && 'success'}`} gutterBottom><i class="fa-solid fa-check"></i> <span>Approved</span> </Typography>}
            {val.status.toLowerCase().includes('rejected')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('rejected') && 'danger'}`} gutterBottom><i class="fa-solid fa-xmark"></i> <span>Rejected</span> </Typography>}
-           {val.status.toLowerCase().includes('apending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('apending') && 'primary'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Approval Pending</span> </Typography>}
+           {/* {val.status.toLowerCase().includes('apending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('apending') && 'primary'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Approval Pending</span> </Typography>} */}
            {/* {val.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
           </Grid>
           <Grid item xs={3}>
