@@ -8,7 +8,6 @@ import { Button } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import Card from "@mui/material/Card";
 import CardContent from '@mui/material/CardContent';
-import Badge from "@mui/material/Badge";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,7 +16,26 @@ export default function Dashboard({status,tdatas})
   // rgba(75, 192, 192, 0.2)',
   // 'rgba(255, 206, 86, 0.2)',
   let role = sessionStorage.getItem('role');
-    const datas = {
+    const bdatas = {
+        labels: ['Completed', 'Pending'],
+        datasets: [
+          {
+            label: 'Basic Details',
+            data: [status.up-status.tf,status.tf],
+            backgroundColor: [
+  'rgba(75, 192, 192, 0.2)',
+  'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const udatas = {
         labels: ['Completed', 'Pending'],
         datasets: [
           {
@@ -68,11 +86,11 @@ export default function Dashboard({status,tdatas})
       icon : 'clock'
     },
   {
-    name : 'Document Rejected',
+    name : 'Data Rejected',
     icon : 'xmark'
   },
 {
-  name : 'Document Approved',
+  name : 'Data Approved',
   icon : 'check'
 }];
     return <>
@@ -123,30 +141,7 @@ export default function Dashboard({status,tdatas})
         })
        }
        <hr/>
-       <Card sx={{ minWidth: 300 }}>
-        <CardContent>
-       <Grid container  rowSpacing={2} sx={{textAlign : 'center',p:2}} alignContent='center' columnSpacing={{ xs: 10, sm: 20, md: 30 }}>
-  <Grid item xs={6}>
 
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-Basic Details Complition Status
-          </Typography>
-          <Box component="div" style={{width: '100%'}}>
-<Doughnut  data={datas} options={options} plugins={[ChartDataLabels]} />
-          </Box>
-
-  </Grid>
-  <Grid item xs={6}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-Upload Documents Complition Status
-          </Typography>
-          <Box component="div" style={{width: '100%'}}>
-<Doughnut  data={datas} options={options} plugins={[ChartDataLabels]} />
-          </Box>
-  </Grid>
-</Grid>
-</CardContent>
-      </Card>
         {/* <div className="col-md-6" style={{clear : 'right'}}>
         <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -234,7 +229,7 @@ Upload Documents Complition Status
           Basic Details
         </Typography>
         <Typography component="div" style={{width: '300px'}}>
-        <Doughnut style={{width : '300px !important'}}  data={datas} options={options} plugins={[ChartDataLabels]} />
+        <Doughnut style={{width : '300px !important'}}  data={bdatas} options={options} plugins={[ChartDataLabels]} />
         </Typography>
         {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
@@ -254,7 +249,7 @@ Upload Documents Complition Status
           Document Upload
         </Typography>
         <Typography  component="div" style={{width: '300px'}}>
-        <Doughnut  data={datas} options={options} plugins={[ChartDataLabels]} />
+        <Doughnut  data={bdatas} options={options} plugins={[ChartDataLabels]} />
         </Typography>
       </CardContent>
     </Card>

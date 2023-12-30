@@ -25,19 +25,20 @@ export default function Apputil() {
   setsignin(signdata)
     }
   },[])
+  //upending, apending, approved, rejected
 const fields = [
     {
      name : 'Full Name',
      type : 'text',
-     status : 'apending',
-     value : 'Mariraja Selvaraja',
+     status : 'upending',
+     value : '',
      mandate : '',
      comments : ''
     },
     {
         name : 'Pan Card Number',
         type : 'text',
-        status : 'apending',
+        status : 'upending',
         value : '',
         mandate : '',
         comments : ''
@@ -45,7 +46,7 @@ const fields = [
     {
         name : 'Aadhar Card Number',
         type : 'text',
-        status : 'approved',
+        status : 'upending',
         value : '',
         mandate : '',
         comments : ''
@@ -53,27 +54,65 @@ const fields = [
     {
         name : 'Pan Card Number',
         type : 'text',
-        status : 'rejected',
+        status : 'upending',
         value : '',
         mandate : '',
         comments : ''
     },
-
 ]
 
-let tdatas =[...fields]
-const up = fields.filter(field => field.status.toLowerCase().includes('upending')).length
-const ap = fields.filter(field => field.status.toLowerCase().includes('apending')).length
-const dr = fields.filter(field => field.status.toLowerCase().includes('reject')).length
-const da = fields.filter(field => field.status.toLowerCase().includes('approved')).length
+const uploads = [
+  {
+   name : 'Aadhar Card',
+   type : 'document',
+   status : 'upending',
+   value : '',
+   mandate : '',
+   comments : ''
+  },
+  {
+      name : 'Pan Card',
+      type : 'text',
+      status : 'upending',
+      value : '',
+      mandate : '',
+      comments : ''
+  },
+  {
+      name : 'SSLC',
+      type : 'document',
+      status : 'upending',
+      value : '',
+      mandate : '',
+      comments : ''
+  },
+  {
+      name : 'HSC',
+      type : 'document',
+      status : 'upending',
+      value : '',
+      mandate : '',
+      comments : ''
+  },
+]
+
+
+let tdatas =[...fields,...uploads]
+const up = tdatas.filter(field => field.status.toLowerCase().includes('upending')).length
+const ap = tdatas.filter(field => field.status.toLowerCase().includes('apending')).length
+const dr = tdatas.filter(field => field.status.toLowerCase().includes('reject')).length
+const da = tdatas.filter(field => field.status.toLowerCase().includes('approved')).length
   const userMenu = ["Dashboard","Basic Details","Upload Documents"]
-  const adminMenu = ['Dashboard', 'Document Request', 'Pending Approval',"Add Client","Document Galary","Settings"]
-  let status = {up,ap,dr,da}
+  const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Add Client","Document Galary","Settings"]
+  let status = {up,ap,dr,da,
+  tf : fields.length,
+  tu : uploads.length,
+  }
   return (
     <Box sx={{ display: 'flex' }}>
        <Navbar token={signin}/>
       <Appdrawer udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page} setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
-     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody tdatas={tdatas} status={status} fields={fields} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
       {signin && signin.role=='admin' && <Box sx={{ display: 'flex' }}><CssBaseline /><Admin adraw={adminMenu} menu={menu}/></Box>}
    </Box>
   );
