@@ -12,7 +12,7 @@ import Badge from "@mui/material/Badge";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function Dashboard()
+export default function Dashboard({status,tdatas})
 {
   // rgba(75, 192, 192, 0.2)',
   // 'rgba(255, 206, 86, 0.2)',
@@ -59,6 +59,22 @@ export default function Dashboard()
         createData('Aadhar Card', "Data Approved","success","Test"),
         createData('Pancard', "Data Rejected Submit Again","danger","Document is Not Cleared upload a clear documents"),
       ];
+      const cardLable = [{
+        name : 'Submission Pending',
+        icon : 'clock'
+      },
+    {
+      name : 'Approval Pending',
+      icon : 'clock'
+    },
+  {
+    name : 'Document Rejected',
+    icon : 'xmark'
+  },
+{
+  name : 'Document Approved',
+  icon : 'check'
+}];
     return <>
     {/* <br/> */}
     {/* <Grid container  rowSpacing={2} sx={{textAlign : 'center'}} alignContent='center' columnSpacing={{ xs: 10, sm: 20, md: 30 }}>
@@ -84,52 +100,53 @@ export default function Dashboard()
 <br/>
       <div className="row p-2" style={{width : "100%", padding : '5px'}}>
         {role == 'user' && <>
-        <div className="col-md-3" style={{clear : 'right'}}>
-        <Card sx={{ minWidth: 200 }} className="alert alert-warning">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <i class="fa-solid fa-clock"></i>  Submission Pending
-        </Typography>
-        <Typography  component="div" style={{width: '300px'}} className="text-warning">
-          1
-        </Typography>
-      </CardContent>
-    </Card>
-        </div>
-        <div className="col-md-3" style={{clear : 'right'}}>
-        <Card sx={{ minWidth: 200 }} className="alert alert-primary">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <i class="fa-solid fa-clock"></i>  Approval Pending
-        </Typography>
-        <Typography  component="div"  style={{width: '300px'}} className="text-primary">
-          1
-        </Typography>
-      </CardContent>
-    </Card>
-        </div>
-        <div className="col-md-3" style={{clear : 'right'}}>
-        <Card sx={{ minWidth: 200 }} className="alert alert-danger">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <i class="fa-solid fa-xmark"></i> Documents Rejected
-        </Typography>
-        <Typography  component="div" style={{width: '300px'}} className="text-danger">
-          1
-        </Typography>
-      </CardContent>
-    </Card>
-        </div>
-        <div className="col-md-3" style={{clear : 'center'}}>        <Card sx={{ minWidth: 210 }} className="alert alert-success">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <i class="fa-solid fa-check"></i> Approved
-        </Typography>
-        <Typography  component="div" style={{width: '300px'}} className="text-success">
-          1
-        </Typography>
-      </CardContent>
-    </Card></div>
+       {
+        cardLable.map((cl)=>{
+          return  <div className="col-md-3" style={{clear : 'right'}}>
+          <Card sx={{ minWidth: 200 }}  onClick={()=>{alert('test')}}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approved') &&<span className="text text-success"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
+          </Typography>
+          <Typography  component="div" style={{width: '300px'}}>
+          {cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
+          {cl.name.toLowerCase().includes('approval pending') && <span className="text-primary"> &nbsp;{status.ap}</span>}
+          {cl.name.toLowerCase().includes('approved') && <span className="text-success"> &nbsp;{status.da}</span>}
+          {cl.name.toLowerCase().includes('rejected') && <span className="text-danger"> &nbsp;{status.dr}</span>}
+          </Typography>
+        </CardContent>
+      </Card>
+          </div>
+        })
+       }
+       <hr/>
+       <Card sx={{ minWidth: 300 }}>
+        <CardContent>
+       <Grid container  rowSpacing={2} sx={{textAlign : 'center',p:2}} alignContent='center' columnSpacing={{ xs: 10, sm: 20, md: 30 }}>
+  <Grid item xs={6}>
+
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+Basic Details Complition Status
+          </Typography>
+          <Box component="div" style={{width: '100%'}}>
+<Doughnut  data={datas} options={options} plugins={[ChartDataLabels]} />
+          </Box>
+
+  </Grid>
+  <Grid item xs={6}>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+Upload Documents Complition Status
+          </Typography>
+          <Box component="div" style={{width: '100%'}}>
+<Doughnut  data={datas} options={options} plugins={[ChartDataLabels]} />
+          </Box>
+  </Grid>
+</Grid>
+</CardContent>
+      </Card>
         {/* <div className="col-md-6" style={{clear : 'right'}}>
         <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -177,7 +194,7 @@ export default function Dashboard()
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,index) => (
+          {tdatas.map((row,index) => (
             <TableRow  
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -189,12 +206,10 @@ export default function Dashboard()
                 {row.name.toUpperCase()}
               </TableCell>
               <TableCell align="center">
-              <span className={`badge alert-${row.cn} p-2`} style={{width : "70%", fontWeight : 'bolder'}}>
-                
-              {row.status.toLowerCase().includes('pending') && <><i class="fa-solid fa-clock"></i> &nbsp;</>}
-              {row.status.toLowerCase().includes('approved') && <><i class="fa-solid fa-check"></i> &nbsp;</>}
-              {row.status.toLowerCase().includes('rejected') && <><i class="fa-solid fa-xmark"></i> &nbsp;</>}
-                 {row.status}</span>
+              {row.status.toLowerCase().includes('upending') && <span className={`badge alert-warning p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Submission Pending</span>}
+              {row.status.toLowerCase().includes('apending') && <span className={`badge alert-primary p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Approval Pending</span>}
+              {row.status.toLowerCase().includes('approved') && <span className={`badge alert-success p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-check"></i> &nbsp;Approved</span>}
+              {row.status.toLowerCase().includes('rejected') && <span className={`badge alert-danger p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-xmark"></i> &nbsp;Rejected</span>}
                 </TableCell>
                 {/* <TableCell align="center">
                <div className="btn btn-primary"><i class="fa-regular fa-eye"></i> View Comment</div> 

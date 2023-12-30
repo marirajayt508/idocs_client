@@ -29,7 +29,7 @@ const fields = [
     {
      name : 'Full Name',
      type : 'text',
-     status : 'upending',
+     status : 'apending',
      value : 'Mariraja Selvaraja',
      mandate : '',
      comments : ''
@@ -60,13 +60,20 @@ const fields = [
     },
 
 ]
+
+let tdatas =[...fields]
+const up = fields.filter(field => field.status.toLowerCase().includes('upending')).length
+const ap = fields.filter(field => field.status.toLowerCase().includes('apending')).length
+const dr = fields.filter(field => field.status.toLowerCase().includes('reject')).length
+const da = fields.filter(field => field.status.toLowerCase().includes('approved')).length
   const userMenu = ["Dashboard","Basic Details","Upload Documents"]
   const adminMenu = ['Dashboard', 'Document Request', 'Pending Approval',"Add Client","Document Galary","Settings"]
+  let status = {up,ap,dr,da}
   return (
     <Box sx={{ display: 'flex' }}>
        <Navbar token={signin}/>
       <Appdrawer udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page} setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
-     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody fields={fields} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody tdatas={tdatas} status={status} fields={fields} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
       {signin && signin.role=='admin' && <Box sx={{ display: 'flex' }}><CssBaseline /><Admin adraw={adminMenu} menu={menu}/></Box>}
    </Box>
   );
