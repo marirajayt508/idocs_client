@@ -29,33 +29,33 @@ export default function Apputil() {
     {
      name : 'Full Name',
      type : 'text',
-     status : 'apending',
-     value : '',
-     mandate : '',
+     status : 'upending',
+     value : 'a',
+     mandate : true,
      comments : ''
     },
     {
         name : 'Pan Card Number',
         type : 'text',
-        status : 'apending',
-        value : '',
-        mandate : '',
+        status : 'upending',
+        value : 'a',
+        mandate : true,
         comments : ''
     },
     {
         name : 'Aadhar Card Number',
         type : 'text',
-        status : 'apending',
-        value : '',
-        mandate : '',
+        status : 'upending',
+        value : 'a',
+        mandate : true,
         comments : ''
     },
     {
         name : 'Pan Card Number',
         type : 'text',
-        status : 'apending',
-        value : '',
-        mandate : '',
+        status : 'upending',
+        value : 'a',
+        mandate : true,
         comments : ''
     },
 ]
@@ -65,33 +65,33 @@ setUploads([
   {
    name : 'Aadhar Card',
    type : 'document',
-   status : 'apending',
-   value : '',
-   mandate : '',
+   status : 'upending',
+   value : 'a',
+   mandate : true,
    comments : ''
   },
   {
       name : 'Pan Card',
       type : 'text',
-      status : 'apending',
-      value : '',
-      mandate : '',
+      status : 'upending',
+      value : 'a',
+      mandate : true,
       comments : ''
   },
   {
       name : 'SSLC',
       type : 'document',
-      status : 'apending',
-      value : '',
-      mandate : '',
+      status : 'upending',
+      value : 'a',
+      mandate : true,
       comments : ''
   },
   {
       name : 'HSC',
       type : 'document',
-      status : 'apending',
-      value : '',
-      mandate : '',
+      status : 'upending',
+      value : 'a',
+      mandate : true,
       comments : ''
   },
 ]

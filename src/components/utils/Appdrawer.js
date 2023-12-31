@@ -22,6 +22,9 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
   const [open,setOpen] = useState(false)
     const role = token.role;
     const drawerWidth = 240;
+    let nodata = tdatas.filter((item)=> item.value == '').length
+    let mandate = tdatas.filter((item)=> item.mandate && item.value != '').length
+    let approved = tdatas.filter((item)=> item.status.toLowerCase().includes('approved')).length
     const showInputAlert = async () => {
       const { value: userInput } = await Swal.fire({
         title: 'OTP',
@@ -72,11 +75,12 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
       </List>
 </Box>}
       <Divider /><br/>
-      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><button onClick={()=>{
-        (status.up || status.dr) ? setOpen(true) : showInputAlert()
+      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><button disabled={approved == tdatas.length} onClick={()=>{
+        (status.up || status.dr) && mandate==0 && nodata!=0? setOpen(true) : showInputAlert()
       }} variant='contained' className='btn btn-success'>
       <i class="fa-solid fa-share-from-square"></i> &nbsp;  Submit
-        </button><br/><br/><Divider /></Box>}
+        </button><br/><br/><Divider /> 
+      { approved != tdatas.length && <h6 className='fw-bolder p-2'>Note: Before submit your datas kindly save by clicking save button.</h6>}</Box>}
     </Box>
   </Drawer>
   <Dialog
@@ -114,7 +118,7 @@ tdatas.map((v)=>{
         </span> */}
         <DialogActions>
         <small className='text alert-info p-3'>Kindly fill (or) refill the above datas to submit</small>
-          <Button onClick={()=>{
+          <Button  onClick={()=>{
             setOpen(false)
           }}>close</Button>
         </DialogActions>

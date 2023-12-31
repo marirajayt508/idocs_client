@@ -18,18 +18,20 @@ export default function Basicdetails ({setpage,d,setdetails,fields})
     return       <Box component="main" sx={{  p: 1 }}>
         {/* <button onClick={()=>console.log(d)}>TETS</button> */}
   <Paper sx={{p:2, width : "1000px"}}>
-    {/* <h2>BASIC DETAILS</h2> */}
+    <small className='fw-bold'>BASIC DETAILS</small>
+    <div style={{'border': '1px solid grey','width' : '90px'}}/>
     <Divider/>
-    <br/>
     <Box sx={{p : 3}}>
         {
 fields.map((v)=>{
    return <div className='row p-3'>
     <div className='col-md-3'>
+    {v.mandate && <span className='text-danger  fw-bolder'>* </span>} 
     {v.name}
     </div>
     <div className='col-md-3'>
-        <Input placeholder='Enter your name' defaultValue={v.value} placeholder={v.name}/>
+        
+        <Input placeholder='Enter your name' defaultValue={v.value} disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} placeholder={v.name}/>
     </div>
     <div className='col-md-3'>
            {v.status.toLowerCase().includes('approved')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('approved') && 'success'}`} gutterBottom><i class="fa-solid fa-check"></i> <span>Approved</span> </Typography>}
@@ -44,7 +46,6 @@ fields.map((v)=>{
 })
  }
      </Box>
-     <br/>
         <Box sx={{textAlign : 'center'}}> 
             <Button onClick={()=>{setpage(1)}} variant='contained' color={'warning'} ><i class="fa-solid fa-floppy-disk"></i> &nbsp; save</Button>
             </Box>

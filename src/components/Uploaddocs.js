@@ -7,6 +7,7 @@ import React,{useState} from 'react';
 import axios from 'axios';
 import { api } from '../util';
 import Typography from '@mui/material/Typography';
+import Swal from 'sweetalert2';
 
 export default function Uploaddocuments({setpage,uploades,setupload,d,udraw,uploads})
 {
@@ -54,19 +55,27 @@ if(!(cfiles.length != uploades.length))
 }
       }
 
-
+      const showAlert = (name) => {
+        Swal.fire({
+          // title: 'Hello!',
+          text: name.toUpperCase()+' is Submitted to the admin. Unless your document gets rejected, you will be able to submit it.',
+          // icon: 'info',
+          confirmButtonText: 'ok'
+        });
+      };
     return       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
- <Paper sx={{p:5, width : "1000px"}}>
-    {/* <h2>UPLOAD DOCUMENTS</h2> */}
+ <Paper sx={{p:2, width : "1000px"}}>
+ <small className='fw-bold'>Upload Documents</small>
+    <div style={{'border': '1px solid grey','width' : '90px'}}/>
     <Divider/>
     <br/>
-    <Paper sx={{p : 2}}>
+    {/* <Paper sx={{p : 2}}> */}
  { uploads.length?
         uploads?.map((val)=>{
             return   <Grid  container sx={{p:2}} spacing={2}><Grid item xs={3}>
-                <label style={{fontWeight : "bold"}}>{val?.name?.toUpperCase()}</label></Grid>
+                <label>{val.mandate && <span className='text-danger  fw-bolder'>* </span>}  {val?.name?.toUpperCase()}</label></Grid>
                 <Grid item xs={3}>     <div>
-      <label  className='btn btn-info' htmlFor={`upload${val.name}`}>
+      <label  className='btn btn-info' onClick={()=>(val.status.toLowerCase().includes('apending') || val.status.toLowerCase().includes('approved'))&& showAlert(val.name)} htmlFor={`upload${val.name}`}>
       <i class="fa-solid fa-upload"></i> &nbsp; Select file
       </label>
       <Input
@@ -74,6 +83,7 @@ if(!(cfiles.length != uploades.length))
         type="file"
         sx={{display:'none'}}
         onChange={(e)=>handleFileUpload(e,val.name)}
+        disabled={val.status.toLowerCase().includes('apending') || val.status.toLowerCase().includes('approved')}
       /><br/>
       {cfiles.indexOf(val.name)!=-1 && <lable>{val.name.toUpperCase()} uploaded</lable>}
     </div>
@@ -90,11 +100,12 @@ if(!(cfiles.length != uploades.length))
           </Grid>
         })
      : <Box style={{textAlign : 'center', color : 'green', fontWeight : 'bold'}}>NO DOCUMENTS NEED</Box>}
-     </Paper>
-     <br/><br/>
-     <Box sx={{textAlign : 'center'}}> 
+    <br/>
+    <Box sx={{textAlign : 'center'}}> 
             <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'><i class="fa-solid fa-floppy-disk"></i>&nbsp; save</Button>
             </Box>
      </Paper>
+     
+     {/* </Paper> */}
   </Box>
 }
