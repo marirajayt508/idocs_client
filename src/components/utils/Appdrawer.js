@@ -98,12 +98,12 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
 tdatas.map((v)=>{
    return <div className='row p-3'>
     <div className='col-md-6 fw-bold'>
-    {v.status.toLowerCase().includes('upending')&&<>{v.name}</>}
-           {v.status.toLowerCase().includes('rejected')&&<>{v.name}</>}
+    {v.status.toLowerCase().includes('upending') && v.mandate &&<>{v.name}</>}
+           {v.status.toLowerCase().includes('rejected') && v.mandate &&<>{v.name}</>}
     </div>
     <div className='col-md-6'>
-           {v.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`badge badge-${v.status.toLowerCase().includes('upending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>}
-           {v.status.toLowerCase().includes('rejected')&&<Typography sx={{ fontSize: 14 }}  className={`badge badge-${v.status.toLowerCase().includes('rejected') && 'danger'}`} gutterBottom><i class="fa-solid fa-xmark"></i> <span>Rejected</span> </Typography>}
+           {v.status.toLowerCase().includes('upending')&& v.mandate &&<Typography sx={{ fontSize: 14 }}  className={`badge badge-${v.status.toLowerCase().includes('upending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>}
+           {v.status.toLowerCase().includes('rejected')&& v.mandate&&<Typography sx={{ fontSize: 14 }}  className={`badge badge-${v.status.toLowerCase().includes('rejected') && 'danger'}`} gutterBottom><i class="fa-solid fa-xmark"></i> <span>Rejected</span> </Typography>}
            {/* {v.status.toLowerCase().includes('apending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'primary'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Approval Pending</span> </Typography>} */}
            {/* {v.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
     </div>
