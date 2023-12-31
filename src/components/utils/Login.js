@@ -11,6 +11,7 @@ import axios from 'axios';
 import { api } from '../../util';
 import loginlogo from '../static/login.png'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const theme = createTheme();
 
@@ -48,17 +49,18 @@ const signin = ()=>{
     axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp')}).then((res)=>{
         if(res.data.status.value??false)
         {
-          alert("INVALID PASSWORD")
+          toast.error('Invalid Password')
         }
         else
      {   
       sessionStorage.setItem('un',res.data.status._id)
         sessionStorage.setItem('role',res.data.status.role)
         sessionStorage.setItem('mail',res.data.status.mail)
+        toast.success("Login Success")
         navigate('/board')
       }
     }).catch((err)=>{
-        alert("LOGIN ERR")
+      toast.error('Invalid Login')
     })
   }
 else
@@ -66,17 +68,18 @@ else
    axios.post(api+'auth/login',{mail,otp}).then((res)=>{
     if(res.data.status.value??false)
     {
-      alert("INVALID PASSWORD")
+      toast.error('Invalid Password')
     }
     else
 {
     sessionStorage.setItem('un',res.data.status._id)
     sessionStorage.setItem('role',res.data.status.role)
     sessionStorage.setItem('mail',res.data.status.mail)
+    toast.success("Login Success")
     navigate('/board')
     }
 }).catch((err)=>{
-    alert("LOGIN ERR")
+  toast.error('Invalid Login')
 })
 }
 }

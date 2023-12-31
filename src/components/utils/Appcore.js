@@ -35,24 +35,27 @@ export default function Apputil() {
      comments : ''
     },
     {
-        name : 'Pan Card Number',
-        type : 'text',
+        name : 'Gender',
+        type : 'radio',
+        options : ['Male','Femal'],
         status : 'upending',
         value : '',
         mandate : true,
         comments : ''
     },
     {
-        name : 'Aadhar Card Number',
-        type : 'text',
+        name : 'Education',
+        type : 'check',
+        options : ['SSLC','HSC'],
         status : 'upending',
         value : '',
         mandate : true,
         comments : ''
     },
     {
-        name : 'Pan Card Number',
-        type : 'text',
+        name : 'State',
+        type : 'select',
+        options : ['Tamilnadu','Andra'],
         status : 'upending',
         value : '',
         mandate : true,

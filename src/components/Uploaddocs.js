@@ -63,6 +63,15 @@ if(!(cfiles.length != uploades.length))
           confirmButtonText: 'ok'
         });
       };
+
+      const showCmd = (cmt) => {
+        Swal.fire({
+          // title: 'Hello!',
+          text: cmt,
+          // icon: 'info',
+          confirmButtonText: 'ok'
+        });
+      };
     return       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
  <Paper sx={{p:2, width : "1000px"}}>
  <small className='fw-bold'>Upload Documents</small>
@@ -95,7 +104,7 @@ if(!(cfiles.length != uploades.length))
            {/* {val.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${val.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
           </Grid>
           <Grid item xs={3}>
-          {val.status.toLowerCase().includes('rejected') && <div className="btn btn-primary"><i class="fa-regular fa-eye"></i> View Comment</div>  }
+          {val.status.toLowerCase().includes('rejected') && <div className="btn btn-primary" onClick={()=>showCmd(val.comments)}><i class="fa-regular fa-eye"></i> View Comment</div>  }
           </Grid>
           </Grid>
         })
