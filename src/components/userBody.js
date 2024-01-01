@@ -7,32 +7,26 @@ import axios from 'axios';
 import { api } from '../util';
 import Dashboard from './utils/Dashboard';
 
-export default function Userbody ({setpage,popup,page,username,setisup,isup,menu,udraw,status,fields,tdatas, uploads})
+export default function Userbody ({setpage,popup,menu,status,fields,tdatas,uds})
 {
     const [udata,setUdata] = useState({})
     const [details,setDetails] = useState({
     })
-    const [uploades,setUploades] = useState({
+    const [uploads,setUploads] = useState({
     })
     let data =  sessionStorage.getItem('un').slice(0,-5);
     useEffect(()=>{
         axios.post(api+"users/get",{
-            username : data
-        },{
-            headers : { "authorization": `Bearer ${sessionStorage.getItem('token')}`,}
+            username : sessionStorage.getItem("un")
         }).then((res)=>{
             setUdata(res.data.datas)
-            console.log(res.data.datas)
-            setisup(res.data.datas?.hasOwnProperty('uploades'))
-            details['fullname']=res.data.datas?.username;
-            details['email']=res.data.datas?.usermail;
-            setDetails(details)
         })
     },[])
+
     const components = [
 <Dashboard popup={()=>popup()} status={status} tdatas={tdatas}/>,
 <Basicdetails fields={fields} setdetails={(v)=>setDetails(v)} d={details}  setpage={(v)=>setpage(v)}/>,
-<Uploaddocuments uploads={uploads} d={details} setupload={(v)=>{setUploades(v)}} uploades={udata.uploades} setpage={(v)=>setpage(v)}/>
+<Uploaddocuments uploads={uploads} d={details} setupload={(v)=>{setUploads(v)}} setpage={(v)=>setpage(v)}/>
     ]
     return       <Box component="main">
     <Toolbar />

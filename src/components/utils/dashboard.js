@@ -9,7 +9,13 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import Card from "@mui/material/Card";
 import CardContent from '@mui/material/CardContent';
 import React,{useState} from "react";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faHourglass, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -83,19 +89,19 @@ export default function Dashboard({status,tdatas,popup})
       ];
       const cardLable = [{
         name : 'Submission Pending',
-        icon : 'clock'
+        icon : faClock
       },
     {
       name : 'Approval Pending',
-      icon : 'clock'
+      icon : faHourglass
     },
   {
     name : 'Data Rejected',
-    icon : 'xmark'
+    icon :  faTimesCircle
   },
 {
   name : 'Data Approved',
-  icon : 'check'
+  icon : faCheckCircle
 }];
 
     return <>
@@ -127,13 +133,13 @@ export default function Dashboard({status,tdatas,popup})
         cardLable.map((cl)=>{
           return  <div className="col-md-3" style={{clear : 'right'}}>
           <Card sx={{ minWidth: 200 }}  onClick={()=>{
-            popup(cl)}}>
+            setOpen(true)}}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('approved') &&<span className="text text-success"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger"><i class={`fa-solid fa-${cl.icon}`}></i> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approved') &&<span className="text text-success"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
           </Typography>
           <Typography  component="div" style={{width: '300px'}}>
           {cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
@@ -309,5 +315,23 @@ export default function Dashboard({status,tdatas,popup})
        </>
        }
       </div>
+      <Dialog
+        open={open}
+        onClose={()=>setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+         </DialogContentText>
+         </DialogContent>
+        <DialogActions>
+          <Button  onClick={()=>{
+            setOpen(false)
+          }}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+
+
     </>
 }

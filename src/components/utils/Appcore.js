@@ -7,6 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import Userbody from '../userBody';
 import Admin from '../admin/admin';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { api } from '../../util';
+import { toast } from 'react-toastify';
+import { Context } from './context';
 
 export default function Apputil() {
   const [page,setPage] = useState(0)
@@ -15,7 +19,7 @@ export default function Apputil() {
   const [menu,setMenu] = useState('Dashboard')
   const [fields,setFields] = useState([])
   const [uploads,setUploads] = useState([])
-   const navigate = useNavigate()
+
   useEffect(()=>{
     if(sessionStorage.getItem('un')??false)
     { 
@@ -25,81 +29,17 @@ export default function Apputil() {
     'role' : sessionStorage.getItem('role')
   };
   setsignin(signdata)
-  setFields([
-    {
-     name : 'Full Name',
-     type : 'text',
-     status : 'upending',
-     value : '',
-     mandate : true,
-     comments : ''
-    },
-    {
-        name : 'Gender',
-        type : 'radio',
-        options : ['Male','Femal'],
-        status : 'upending',
-        value : '',
-        mandate : true,
-        comments : ''
-    },
-    {
-        name : 'Education',
-        type : 'check',
-        options : ['SSLC','HSC'],
-        status : 'upending',
-        value : '',
-        mandate : true,
-        comments : ''
-    },
-    {
-        name : 'State',
-        type : 'select',
-        options : ['Tamilnadu','Andra'],
-        status : 'upending',
-        value : '',
-        mandate : true,
-        comments : ''
-    },
-]
-)
-
-setUploads([
-  {
-   name : 'Aadhar Card',
-   type : 'document',
-   status : 'upending',
-   value : '',
-   mandate : true,
-   comments : ''
-  },
-  {
-      name : 'Pan Card',
-      type : 'text',
-      status : 'upending',
-      value : '',
-      mandate : true,
-      comments : ''
-  },
-  {
-      name : 'SSLC',
-      type : 'document',
-      status : 'upending',
-      value : '',
-      mandate : true,
-      comments : ''
-  },
-  {
-      name : 'HSC',
-      type : 'document',
-      status : 'upending',
-      value : '',
-      mandate : true,
-      comments : ''
-  },
-]
-)
     }
+    axios.post(api+"save/get/",{
+      _id : sessionStorage.getItem('un')
+    })
+    .then((res)=>{
+      setFields(res.data.datas.fields)
+      setUploads(res.data.datas.uploads)
+    })
+    .catch((e)=>{
+      toast.error("Network Error, Try Again")
+    })
   },[])
   //upending, apending, approved, rejected
  
@@ -139,9 +79,11 @@ const getIcon = (cl)=>{
   return (
     <Box sx={{ display: 'flex' }}>
        <Navbar token={signin}/>
-      <Appdrawer status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page} setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
-     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody popup={()=>popup()} tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+      <Appdrawer status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page}  setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
+     <Context.Provider value={{fields,uploads}}>
+     {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody popup={()=>popup()} uds={uploads} tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
       {signin && signin.role=='admin' && <Box sx={{ display: 'flex' }}><CssBaseline /><Admin adraw={adminMenu} menu={menu}/></Box>}
+      </Context.Provider>
    </Box>
   );
 }

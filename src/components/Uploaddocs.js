@@ -3,16 +3,22 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Input from '@mui/material/Input';
-import React,{useState} from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import axios from 'axios';
 import { api } from '../util';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2';
+import { Context } from './utils/context';
 
-export default function Uploaddocuments({setpage,uploades,setupload,d,udraw,uploads})
+export default function Uploaddocuments({setpage,setupload,d,udraw})
 {
     const [ufiles,setUfiles] = useState({});
     const [cfiles,setCfiles] = useState([]);
+    const [uploads,setUploads] = useState([])
+  const cstate = useContext(Context)
+  useEffect(()=>{
+    setUploads(cstate.uploads)
+  },[])
     const handleFileUpload = (event,val) => {
         const file = event.target.files[0];
         ufiles[val] = file;
@@ -32,9 +38,9 @@ export default function Uploaddocuments({setpage,uploades,setupload,d,udraw,uplo
         
 
       const submit = ()=>{
-if(!(cfiles.length != uploades.length))
+if(!(cfiles.length != uploads.length))
 {
-    // d['uploades'] = ufiles;
+    // d['uploads'] = ufiles;
     // let formData = objectToFormData(d);
     // axios.post(api+"users/access",formData,{
     //     headers : {"Content-Type" : "multipart/formdata"}

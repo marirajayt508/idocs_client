@@ -80,7 +80,8 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
       }} variant='contained' className='btn btn-success'>
       <i class="fa-solid fa-share-from-square"></i> &nbsp;  Submit
         </button><br/><br/><Divider /> 
-      { approved != tdatas.length && <h6 className='fw-bolder p-2'>Note: Before submit your datas kindly save by clicking save button.</h6>}</Box>}
+      {/* { approved != tdatas.length && <h6 className='fw-bolder p-2'>Note: Before submit your datas kindly save by clicking save button.</h6>} */}
+      </Box>}
     </Box>
   </Drawer>
   <Dialog

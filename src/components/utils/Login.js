@@ -56,7 +56,7 @@ const signin = ()=>{
       sessionStorage.setItem('un',res.data.status._id)
         sessionStorage.setItem('role',res.data.status.role)
         sessionStorage.setItem('mail',res.data.status.mail)
-        toast.success("Login Success")
+        // toast.success("Login Success")
         navigate('/board')
       }
     }).catch((err)=>{
@@ -75,7 +75,7 @@ else
     sessionStorage.setItem('un',res.data.status._id)
     sessionStorage.setItem('role',res.data.status.role)
     sessionStorage.setItem('mail',res.data.status.mail)
-    toast.success("Login Success")
+    // toast.success("Login Success")
     navigate('/board')
     }
 }).catch((err)=>{
