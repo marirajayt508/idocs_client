@@ -84,7 +84,7 @@ else
 }
 }
   return (
-    <Box sx={{width:"100%"}}>
+    <Box>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

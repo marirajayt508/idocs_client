@@ -9,57 +9,47 @@ import { api } from '../util';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2';
 import { Context } from './utils/context';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import { toast } from 'react-toastify';
 
 export default function Uploaddocuments({setpage,setupload,d,udraw})
 {
     const [ufiles,setUfiles] = useState({});
     const [cfiles,setCfiles] = useState([]);
+    const [open,setOpen] = useState(false)
     const [uploads,setUploads] = useState([])
   const cstate = useContext(Context)
   useEffect(()=>{
     setUploads(cstate.uploads)
   },[])
-    const handleFileUpload = (event,val) => {
-        const file = event.target.files[0];
-        ufiles[val] = file;
-        setCfiles([...cfiles,val])
-        setUfiles(ufiles)
-        const fd = new FormData();
-        fd.append('username',d.fullname)
-        fd.append('file',file)
-        let url = api+"users/access/"+val;
-        console.log(url,fd)
-           axios.post(api+"users/access/"+val,fd,{ headers: { 'Content-Type': 'multipart/form-data'}}).then((res)=>{
-            console.log("UPLOADED")
-           }).catch((err)=>{
-            console.log(err)
-           })
-      } 
+
+  const handleFileUpload = (event,name,ind) => {
+    const file = event.target.files[0];
+            const fd = new FormData();
+            fd.append('username',sessionStorage.getItem('un'))
+            fd.append('filename',name)
+                    fd.append('file',file)
+                    setOpen(true)
+         uploads[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
+        //  tu[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
+         axios.post(api+"users/access/",fd,{ headers: { 'Content-Type': 'multipart/form-data'}},).then((res)=>{
+        setOpen(false)
+       }).catch((err)=>{
+        setOpen(false)
+        console.log(err)
+       })
+       axios.put(api+"save/setuplod",{
+        "_id" : sessionStorage.getItem("un"),
+        uploads
+     }).catch((e)=>{
+        toast.error("Network Error!")
+     })
+
+  } 
         
 
-      const submit = ()=>{
-if(!(cfiles.length != uploads.length))
-{
-    // d['uploads'] = ufiles;
-    // let formData = objectToFormData(d);
-    // axios.post(api+"users/access",formData,{
-    //     headers : {"Content-Type" : "multipart/formdata"}
-    //   })
-    // const fd = new FormData();
-    // fd['username'] = d.fullname
-// cfiles.forEach((v)=>{
-        // fd['file'] = ufiles["aadhar"]
-    // })
-    // cfiles.forEach((v)=>{
-    //         axios.post(api+"users/access/"+v,fd,(res)=>{
-    //             console.log(res)
-    //         },(err)=>{
-    //             console.log(err)
-    //         })
-    //         console.log(fd)
-    // })
-}
-      }
 
       const showAlert = (name) => {
         Swal.fire({
@@ -86,21 +76,21 @@ if(!(cfiles.length != uploads.length))
     <br/>
     {/* <Paper sx={{p : 2}}> */}
  { uploads.length?
-        uploads?.map((val)=>{
+        uploads?.map((val,ind)=>{
             return   <Grid  container sx={{p:2}} spacing={2}><Grid item xs={3}>
                 <label>{val.mandate && <span className='text-danger  fw-bolder'>* </span>}  {val?.name?.toUpperCase()}</label></Grid>
                 <Grid item xs={3}>     <div>
       <label  className='btn btn-info' onClick={()=>(val.status.toLowerCase().includes('apending') || val.status.toLowerCase().includes('approved'))&& showAlert(val.name)} htmlFor={`upload${val.name}`}>
       <i class="fa-solid fa-upload"></i> &nbsp; Select file
       </label>
-      <Input
+      <input
         id={`upload${val.name}`}
         type="file"
-        sx={{display:'none'}}
-        onChange={(e)=>handleFileUpload(e,val.name)}
+        style={{display:'none'}}
+        onChange={(e)=>handleFileUpload(e,val.name,ind)}
         disabled={val.status.toLowerCase().includes('apending') || val.status.toLowerCase().includes('approved')}
       /><br/>
-      {cfiles.indexOf(val.name)!=-1 && <lable>{val.name.toUpperCase()} uploaded</lable>}
+      {/* {cfiles.indexOf(val.name)!=-1 && <lable>{val.name.toUpperCase()} uploaded</lable>} */}
     </div>
           </Grid>
           <Grid item xs={3}>
@@ -114,11 +104,24 @@ if(!(cfiles.length != uploads.length))
           </Grid>
           </Grid>
         })
-     : <Box style={{textAlign : 'center', color : 'green', fontWeight : 'bold'}}>NO DOCUMENTS NEED</Box>}
+     : <Box style={{textAlign : 'center', color : 'green', fontWeight : 'bold'}}>Loading...</Box>}
     <br/>
-    <Box sx={{textAlign : 'center'}}> 
-            <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'><i class="fa-solid fa-floppy-disk"></i>&nbsp; save</Button>
-            </Box>
+    <Dialog
+        open={open}
+        onClose={()=>setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" className='text-center'>
+          <span class="spinner-border text-primary small" role="status"/> <br/>
+Uploading Please Wiat...
+         </DialogContentText>
+         </DialogContent>
+      </Dialog>
+      {/* <Box sx={{textAlign : 'center'}}> 
+              <Button onClick={()=>{setpage(1)}} color={'warning'} variant='contained'><i class="fa-solid fa-floppy-disk"></i>&nbsp; save</Button>
+              </Box> */}
      </Paper>
      
      {/* </Paper> */}
