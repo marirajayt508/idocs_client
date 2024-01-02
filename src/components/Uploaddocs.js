@@ -26,12 +26,13 @@ export default function Uploaddocuments({setpage,setupload,d,udraw})
   },[])
 
   const handleFileUpload = (event,name,ind) => {
+    setOpen(true)
     const file = event.target.files[0];
             const fd = new FormData();
             fd.append('username',sessionStorage.getItem('un'))
             fd.append('filename',name)
                     fd.append('file',file)
-                    setOpen(true)
+                 
          uploads[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
         //  tu[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
          axios.post(api+"users/access/",fd,{ headers: { 'Content-Type': 'multipart/form-data'}},).then((res)=>{

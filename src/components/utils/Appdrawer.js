@@ -75,8 +75,9 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
       </List>
 </Box>}
       <Divider /><br/>
-      {    role=='user' && <Box sx={{'textAlign' : 'center'}}><button disabled={approved == tdatas.length} onClick={()=>{
-        (status.up || status.dr) && mandate==0 && nodata!=0? setOpen(true) : showInputAlert()
+      {    role=='user' && <Box sx={{'textAlign' : 'center'}}>
+      <button disabled={approved == tdatas.length} onClick={()=>{
+      (!(status.fieldValue==status.fieldLength)&& (status.uploadValue==status.uploadLength)) ? setOpen(true) : showInputAlert()
       }} variant='contained' className='btn btn-success'>
       <i class="fa-solid fa-share-from-square"></i> &nbsp;  Submit
         </button><br/><br/><Divider /> 

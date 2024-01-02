@@ -12,7 +12,7 @@ export default function Navbar()
     let id = sessionStorage.getItem('un');
    const logout = ()=>{
     sessionStorage.clear()
-    navigate('/')
+    navigate('/login')
    }
     return       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
     <Toolbar>
