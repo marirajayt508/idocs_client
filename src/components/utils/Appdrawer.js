@@ -49,10 +49,16 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
   >
     <Toolbar />
     <Box sx={{ overflow: 'auto' }}>
-{    role=='admin' && <Box> <List>
+{  role=='admin' && <Box> <List>
         {adraw.map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
+            {text.toLowerCase().includes('dashboard') && <i class="fa-solid fa-gauge"></i>} 
+            {text.toLowerCase().includes('users') && <i class="fa-solid fa-users"></i>} 
+            {text.toLowerCase().includes('pending') && <i class="fa-solid fa-clock"></i>} 
+            {text.toLowerCase().includes('galary') && <i class="fa-solid fa-folder"></i>} 
+            {text.toLowerCase().includes('settings') && <i class="fa-solid fa-gear"></i>} 
+            &nbsp;&nbsp;
               <ListItemText primary={text} />
               {
                 text.trim().toLowerCase()=="pendingapproval" && <Badge badgeContent={4} color="primary"/>
@@ -68,6 +74,10 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
         {udraw?.map((text, index) => (
           <ListItem selected={text == menu} key={text.name} disablePadding>
             <ListItemButton onClick={()=>setmenu(text.trim())}>
+           {text.toLowerCase().includes('dashboard') && <i class="fa-solid fa-gauge"></i>}
+           {text.toLowerCase().includes('basic') && <i class="fa-solid fa-pen"></i>}
+           {text.toLowerCase().includes('upload') && <i class="fa-solid fa-upload"></i>}
+           &nbsp; &nbsp;
             <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>

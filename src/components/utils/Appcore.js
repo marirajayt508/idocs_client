@@ -56,7 +56,7 @@ const uploadValue = uploads.filter(upload => upload.value != '' && upload.mandat
 const uploadLength = uploads.length
 
   const userMenu = ["Dashboard","Basic Details","Upload Documents"]
-  const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Add Client","Document Galary","Settings"]
+  const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Document Galary","Settings"]
   let status = {up,ap,dr,da,
   tf : fields.length,
   tu : uploads.length,

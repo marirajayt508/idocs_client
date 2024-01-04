@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import Card from "@mui/material/Card";
 import CardContent from '@mui/material/CardContent';
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHourglass, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Dialog from '@mui/material/Dialog';
@@ -23,8 +23,24 @@ export default function Dashboard({status,tdatas,popup})
 {
   const [ps,setPs] = useState([])
   const [open,setOpen] = useState(false)
-  // rgba(75, 192, 192, 0.2)',
-  // 'rgba(255, 206, 86, 0.2)',
+useEffect(()=>{
+  let pending = tdatas.filter((val)=>{
+   return val.status.toLowerCase().includes('upending')
+  })
+  setPs(pending)
+})
+const upending = tdatas.filter((val)=>{
+  return val.status.toLowerCase().includes('upending')
+ })
+ const apending = tdatas.filter((val)=>{
+  return val.status.toLowerCase().includes('apending')
+ })
+ const approved = tdatas.filter((val)=>{
+  return val.status.toLowerCase().includes('approved')
+ })
+ const rejected = tdatas.filter((val)=>{
+  return val.status.toLowerCase().includes('rejected')
+ })
   let role = sessionStorage.getItem('role');
     const bdatas = {
         labels: ['Completed', 'Pending'],
@@ -132,14 +148,14 @@ export default function Dashboard({status,tdatas,popup})
        {
         cardLable.map((cl)=>{
           return  <div className="col-md-3" style={{clear : 'right'}}>
-          <Card sx={{ minWidth: 200 }}  onClick={()=>{
-            setOpen(true)}}>
+          <Card sx={{ minWidth: 200 }} >
+          {/* onClick={()=>{setOpen(true)}} */}
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('approved') &&<span className="text text-success"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-          {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger"><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning" onClick={()=>setPs(upending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary" onClick={()=>setPs(apending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('approved') &&<span className="text text-success" onClick={()=>setPs(approved)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+          {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger" onClick={()=>setPs(rejected)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
           </Typography>
           <Typography  component="div" style={{width: '300px'}}>
           {cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
@@ -323,6 +339,18 @@ export default function Dashboard({status,tdatas,popup})
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+          <table class="table table-striped">
+  <tbody>
+{
+  ps.length ? ps.map((data)=>{
+    return     <tr>
+    <td>{data.name}</td>
+    <td>Pending</td>
+  </tr>
+  }) : <span>No Data Found.</span>
+}
+  </tbody>
+</table>
          </DialogContentText>
          </DialogContent>
         <DialogActions>
