@@ -142,8 +142,8 @@ const upending = tdatas.filter((val)=>{
   Status : Document Submition Pending
 </div>
 </Box> */}
-<br/>
-      <div className="row p-2" style={{width : "100%", padding : '5px'}}>
+
+      <div className="row" style={{width : "100%", padding : '5px'}}>
         {role == 'user' && <>
        {
         cardLable.map((cl)=>{

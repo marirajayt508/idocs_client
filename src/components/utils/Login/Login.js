@@ -8,10 +8,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-import { api } from '../../util';
-import loginlogo from '../static/login.png'
+import { api } from '../../../util';
+// import loginlogo from '../static/login.png'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import "./login.css"
 
 const theme = createTheme();
 
@@ -83,65 +84,32 @@ else
 })
 }
 }
-  return (
-    <Box>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            p : 10,
-            border : 'solid 0.5px',
-            boxShadow : '2px 2px 4px 7px rgba(0, 0, 0, 0.2)'
-          }}
-        >
-            {/* <img src={loginlogo} width='35' alt="loginlogo"/> */}
-           
-          <Typography componenet="h1" variant="h5">
-          <span className='text-danger'><i class="fa-solid fa-user"/></span> Login
-          </Typography> 
-          <div style={{'border': '1px solid grey','width' : '90px'}}/>
-          <br/>  <br/>
-          <Input
-            margin="normal"
-            required
-            fullWidth
-            placeholder="EMAIL ADDRESS"
-            name="username"
-            id="username"
+  return <div className='p-5'> 
+    <div className="login-body container" id="container">
+  <div className="form-container sign-in">
+    <div className='form' >
+      <h1>Login</h1>
+      <input type="email" placeholder="Email"             id="username"
             value={sessionStorage.getItem('un')}
-            onChange={(e)=>setMail(e.target.value)}
-          />
-          <br/><br/>
-          <Input
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            placeholder="PASSWORD"
-            type="password"
-            id="password"
-            value={sessionStorage.getItem('otp')}
-            onChange={(e)=>{
-              setOtp(e.target.value)
-            }}
-          /><br/>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={()=>{
-                signin()
-            }}
-          >
-            Login &nbsp; <i class="fa-solid fa-right-to-bracket"></i>
-          </Button>
-        </Box>
-      </Container>
-    </Box>
-  );
+            onChange={(e)=>setMail(e.target.value)}/>
+
+      <input type="password" placeholder="Password"
+         value={sessionStorage.getItem('otp')}
+         onChange={(e)=>{
+           setOtp(e.target.value)
+         }} />
+      <button onClick={()=> signin()}>Sign In</button>
+    </div>
+  </div>
+  <div className="toggle-container">
+    <div className="toggle">
+      <div className="toggle-panel toggle-right">
+        <h1>iDocs</h1>
+        {/* <p>Register with your personal details to use all of site features</p> */}
+        {/* <button className="hidden" id="register">Sign Up</button> */}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 }
