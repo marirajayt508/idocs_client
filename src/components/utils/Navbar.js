@@ -14,11 +14,11 @@ export default function Navbar()
     sessionStorage.clear()
     navigate('/login')
    }
-    return       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}>
+    return       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor : '#512da8'}}>
     <Toolbar>
       <Typography variant="h6" sx={{fontWeight : "bold"}} noWrap component="div">
-       {role=="admin" && <span>iDocs</span>}
-       {role=="user" && <span><i class="fa-solid fa-user"></i> &nbsp;{id.slice(0,-5).toUpperCase()}</span>}
+       <span>iDocs</span>
+       {/* {role=="user" && <span><i class="fa-solid fa-user"></i> &nbsp;{id.slice(0,-5).toUpperCase()}</span>} */}
        </Typography>
        <Box sx={{position : 'absolute', right:'10px'}}>
        <i class="fa-solid fa-power-off"/> 

@@ -35,7 +35,7 @@ export default function Apputil() {
     })
     .then((res)=>{
       setFields(res.data.datas.fields)
-      setUploads(res.data.datas.uploads)
+      // setUploads(res.data.datas.uploads)
     })
     .catch((e)=>{
       toast.error("Network Error, Try Again")
@@ -44,7 +44,7 @@ export default function Apputil() {
   //upending, apending, approved, rejected
  
 
-let tdatas =[...fields,...uploads]
+let tdatas =[...fields]
 const up = tdatas.filter(field => field.status.toLowerCase().includes('upending')).length
 const ap = tdatas.filter(field => field.status.toLowerCase().includes('apending')).length
 const dr = tdatas.filter(field => field.status.toLowerCase().includes('reject')).length
@@ -52,18 +52,15 @@ const da = tdatas.filter(field => field.status.toLowerCase().includes('approved'
 
 const fieldValue =  fields.filter(field => field.value != '' && field.mandate).length
 const fieldLength = fields.length
-const uploadValue = uploads.filter(upload => upload.value != '' && upload.mandate).length
-const uploadLength = uploads.length
+// const uploadValue = uploads.filter(upload => upload.value != '' && upload.mandate).length
+// const uploadLength = uploads.length
 
-  const userMenu = ["Dashboard","Basic Details","Upload Documents"]
+  const userMenu = ["Dashboard","Basic Details"]
   const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Document Galary","Settings"]
   let status = {up,ap,dr,da,
   tf : fields.length,
-  tu : uploads.length,
   fieldValue,
   fieldLength,
-  uploadValue,
-  uploadLength
   }
 
   

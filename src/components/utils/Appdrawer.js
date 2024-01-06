@@ -42,6 +42,7 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
     return <> <Drawer
     variant="permanent"
     sx={{
+      backgroundColor : 'black',
       width: drawerWidth,
       flexShrink: 0,
       [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
@@ -88,7 +89,7 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
       {    role=='user' && <Box sx={{'textAlign' : 'center'}}>
       <button disabled={approved == tdatas.length} onClick={()=>{
       (!(status.fieldValue==status.fieldLength)&& (status.uploadValue==status.uploadLength)) ? setOpen(true) : showInputAlert()
-      }} variant='contained' className='btn btn-success'>
+      }} variant='contained' className='btn' style={{backgroundColor : '#512da8', color : 'white'}}>
       <i class="fa-solid fa-share-from-square"></i> &nbsp;  Submit
         </button><br/><br/><Divider /> 
       {/* { approved != tdatas.length && <h6 className='fw-bolder p-2'>Note: Before submit your datas kindly save by clicking save button.</h6>} */}

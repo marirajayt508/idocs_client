@@ -1,9 +1,6 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Pie  } from "react-chartjs-2";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import Divider from "@mui/material/Divider";
 import { Button } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import Card from "@mui/material/Card";
@@ -15,7 +12,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -23,12 +19,16 @@ export default function Dashboard({status,tdatas,popup})
 {
   const [ps,setPs] = useState([])
   const [open,setOpen] = useState(false)
+  const [fields, setFields] = useState(tdatas);
+  const [table,setTable] = useState(tdatas)
 useEffect(()=>{
   let pending = tdatas.filter((val)=>{
    return val.status.toLowerCase().includes('upending')
   })
   setPs(pending)
-})
+  setFields(tdatas)
+  setTable(tdatas)
+},[])
 const upending = tdatas.filter((val)=>{
   return val.status.toLowerCase().includes('upending')
  })
@@ -42,34 +42,21 @@ const upending = tdatas.filter((val)=>{
   return val.status.toLowerCase().includes('rejected')
  })
   let role = sessionStorage.getItem('role');
-    const bdatas = {
-        labels: ['Completed', 'Pending'],
+  let completed = fields.filter((v)=>  v.value!='' )
+   let c = (completed.length/fields.length)*100;
+   let p = 100 - c
+  //  p = isFinite(p)?p:100
+   console.log(p,c)
+    const chart_datas = {
+        labels: ['Saved', 'Pending'],
         datasets: [
           {
             label: 'Basic Details',
-            data: [status.up-status.tf,status.tf],
+            data: [c,p],
             backgroundColor: [
-  'rgba(75, 192, 192, 0.2)',
-  'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
-          },
-        ],
-      };
-
-      const udatas = {
-        labels: ['Completed', 'Pending'],
-        datasets: [
-          {
-            label: 'Basic Details',
-            data: [50,50],
-            backgroundColor: [
-  'rgba(75, 192, 192, 0.2)',
-  'rgba(255, 206, 86, 0.2)'
+  // 'rgba(75, 192, 192, 0.2)',
+  // 'rgba(255, 206, 86, 0.2)'
+  'lightgreen','lightcoral'
             ],
             borderColor: [
                 'rgba(75, 192, 192, 1)',
@@ -120,6 +107,21 @@ const upending = tdatas.filter((val)=>{
   icon : faCheckCircle
 }];
 
+const filterTable=(value)=>{
+  if(!value.toLowerCase().includes('all'))
+{    let temp = fields.filter((v)=>{
+  // console.log(v.status == value)
+      return v.status == value
+    }
+      ) 
+  setTable(temp)
+}
+else
+{
+  setTable(fields)
+}
+}
+
     return <>
     {/* <br/> */}
     {/* <Grid container  rowSpacing={2} sx={{textAlign : 'center'}} alignContent='center' columnSpacing={{ xs: 10, sm: 20, md: 30 }}>
@@ -148,7 +150,8 @@ const upending = tdatas.filter((val)=>{
        {
         cardLable.map((cl)=>{
           return  <div className="col-md-3" style={{clear : 'right'}}>
-          <Card sx={{ minWidth: 200 }} >
+            <br/>
+          <Card sx={{ minWidth: 200, boxShadow : "5px 5px 5px 5px lightblue" }} >
           {/* onClick={()=>{setOpen(true)}} */}
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -204,47 +207,68 @@ const upending = tdatas.filter((val)=>{
         </div> */}
        <div>
         <br/>
-        <Card>
-      
-        <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 1000 }} aria-label="simple table">
-        <TableHead className="bg-primary">
-          <TableRow>
-          <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>S.No</TableCell>
-            <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>Fields</TableCell>
-            <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>Status</TableCell>
-            {/* <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>Commands</TableCell> */}
+        <div className="row">
+<div className="col-md-8">
+<Card>
+      <TableContainer component={Paper}>
+    <Table sx={{ minWidth: 500 }} aria-label="simple table">
+      <TableHead style={{'backgroundColor' : '#512da8' }}>
+        <TableRow>
+        <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>S.No</TableCell>
+          <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>Fields</TableCell>
+          <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>
+            Status
+         <div style={{textAlign : 'center'}}>
+         <select className="text-center" onChange={(e)=>filterTable(e.target.value)} style={{height : '30px', width : '70%'}}>
+  <option value='all'> All </option>
+  <option value="upending"> Submission Pending </option>
+  <option value="apending"> Approval Pending </option>
+  <option value="approved"> Approved </option>
+  <option value="rejected"> Rejected </option>
+</select> 
+</div>
+          </TableCell>
+          {/* <TableCell align="center" style={{'color' : 'white', fontWeight : 'bolder'}}>Commands</TableCell> */}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        { table.length? table.map((row,index) => (
+          <TableRow  
+            key={row.name}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+                         <TableCell align="center" component="th" scope="row">
+              {index+1}
+            </TableCell>
+            <TableCell align="center" component="th" scope="row">
+              <span className={row.value? 'text text-success' : 'text text-danger'}>{row.name.toUpperCase()}<br/></span>
+            </TableCell>
+            <TableCell align="center">
+            {row.status.toLowerCase().includes('upending') && <span className={`badge alert-warning p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Submission Pending</span>}
+            {row.status.toLowerCase().includes('apending') && <span className={`badge alert-primary p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Approval Pending</span>}
+            {row.status.toLowerCase().includes('approved') && <span className={`badge alert-success p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-check"></i> &nbsp;Approved</span>}
+            {row.status.toLowerCase().includes('rejected') && <span className={`badge alert-danger p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-xmark"></i> &nbsp;Rejected</span>}
+                            </TableCell>
+              {/* <TableCell align="center">
+             <div className="btn btn-primary"><i class="fa-regular fa-eye"></i> View Comment</div> 
+              </TableCell> */}
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {tdatas.map((row,index) => (
-            <TableRow  
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                           <TableCell align="center" component="th" scope="row">
-                {index+1}
-              </TableCell>
-              <TableCell align="center" component="th" scope="row">
-                {row.name.toUpperCase()}
-              </TableCell>
-              <TableCell align="center">
-              {row.status.toLowerCase().includes('upending') && <span className={`badge alert-warning p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Submission Pending</span>}
-              {row.status.toLowerCase().includes('apending') && <span className={`badge alert-primary p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-clock"></i> &nbsp;Approval Pending</span>}
-              {row.status.toLowerCase().includes('approved') && <span className={`badge alert-success p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-check"></i> &nbsp;Approved</span>}
-              {row.status.toLowerCase().includes('rejected') && <span className={`badge alert-danger p-2`} style={{width : "70%", fontWeight : 'bolder'}}><i class="fa-solid fa-xmark"></i> &nbsp;Rejected</span>}
-                </TableCell>
-                {/* <TableCell align="center">
-               <div className="btn btn-primary"><i class="fa-regular fa-eye"></i> View Comment</div> 
-                </TableCell> */}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        )) : <TableRow><TableCell colSpan={3} className="text-center fw-bold text-primary"><i class="fa-solid fa-face-smile"> </i> Hey, No fields found on the status you want</TableCell></TableRow>}
+      </TableBody>
+    </Table>
+  </TableContainer>
 
 
-       </Card>
+     </Card>
+</div>
+<div className="col-md-4">
+<Doughnut  data={chart_datas} options={options} plugins={[ChartDataLabels]} />
+<br/>
+<div className='text-center'>
+<span className="text-primary fw-bold">FORM FILLED: {c}%</span>
+</div>
+</div>
+        </div>
        </div>
        </>}
 
@@ -257,7 +281,7 @@ const upending = tdatas.filter((val)=>{
           Basic Details
         </Typography>
         <Typography component="div" style={{width: '300px'}}>
-        <Doughnut style={{width : '300px !important'}}  data={bdatas} options={options} plugins={[ChartDataLabels]} />
+        <Doughnut style={{width : '300px !important'}}  data={chart_datas} options={options} plugins={[ChartDataLabels]} />
         </Typography>
         {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
@@ -277,7 +301,7 @@ const upending = tdatas.filter((val)=>{
           Document Upload
         </Typography>
         <Typography  component="div" style={{width: '300px'}}>
-        <Doughnut  data={bdatas} options={options} plugins={[ChartDataLabels]} />
+        <Doughnut  data={chart_datas} options={options} plugins={[ChartDataLabels]} />
         </Typography>
       </CardContent>
     </Card>
@@ -297,7 +321,7 @@ const upending = tdatas.filter((val)=>{
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,index) => (
+          {table.length? table.map((row,index) => (
             <TableRow  
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -320,7 +344,7 @@ const upending = tdatas.filter((val)=>{
                <div className="btn btn-primary"><i class="fa-regular fa-eye"></i> View Comment</div> 
                 </TableCell> */}
             </TableRow>
-          ))}
+          )) : <TableRow><TableCell ><span>TTTT</span></TableCell></TableRow>}
         </TableBody>
       </Table>
     </TableContainer>
