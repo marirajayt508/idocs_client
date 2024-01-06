@@ -163,14 +163,14 @@ export default function Basicdetails({ d }) {
                             </select>}
                             {v.type == 'text' && <Input placeholder={`Enter your ${v.name}`} onChange={(e) => setText(e.target.value, ind)} defaultValue={v.value} disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} />}
                         </div>
-                        <div className='col-md-3'>
+                        <div className='col-md-3 text-center'>
                             {v.status.toLowerCase().includes('approved') && <Typography sx={{ fontSize: 14 }} className={`text-${v.status.toLowerCase().includes('approved') && 'success'}`} gutterBottom><i class="fa-solid fa-check"></i> <span>Approved</span> </Typography>}
                             {v.status.toLowerCase().includes('rejected') && <Typography sx={{ fontSize: 14 }} className={`text-${v.status.toLowerCase().includes('rejected') && 'danger'}`} gutterBottom><i class="fa-solid fa-xmark"></i> <span>Rejected</span> </Typography>}
                             {/* {v.status.toLowerCase().includes('apending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'primary'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Approval Pending</span> </Typography>} */}
                             {/* {v.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
                         </div>
-                        <div className='col-md-3'>
-                            {v.status.toLowerCase().includes('rejected') && <div className="btn btn-primary" onClick={()=>showComment(v.comments)}><i class="fa-regular fa-eye"></i> View Comment</div>}
+                        <div className='col-md-3 text-center'>
+                            {v.status.toLowerCase().includes('rejected') && <div className="btn btn-danger" onClick={()=>showComment(v.comments)}><i class="fa-regular fa-eye"></i> View</div>}
                         </div>
                     </div>;
                 }) : <span className='text text-danger fw-bold col-md-6 text-center'><i class="fa-solid fa-mug-hot"></i> {`TAKE A CUP OF COFFE, NO FIELDS HERE WHICH YOU TRY TO FIND.`}.</span>}

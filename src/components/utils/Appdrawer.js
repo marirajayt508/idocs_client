@@ -12,16 +12,17 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+// import { makeStyles } from '@mui/styles';
 import React,{useState} from 'react';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2';
+import { red } from '@mui/material/colors';
 
-export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udraw,adraw,tdatas,status})
+export default function Appdrawer({token,dopen,setmenu,menu,udraw,adraw,tdatas,status})
 {
   const [open,setOpen] = useState(false)
     const role = token.role;
-    const drawerWidth = 240;
+    const drawerWidth = 170;
     let nodata = tdatas.filter((item)=> item.value == '').length
     let mandate = tdatas.filter((item)=> item.mandate && item.value != '').length
     let approved = tdatas.filter((item)=> item.status.toLowerCase().includes('approved')).length
@@ -40,12 +41,12 @@ export default function Appdrawer({token,page,setpage,isUpload,setmenu,menu,udra
       }
     }; 
     return <> <Drawer
-    variant="permanent"
+    open={dopen}
+    variant="persistent"  
     sx={{
-      backgroundColor : 'black',
       width: drawerWidth,
       flexShrink: 0,
-      [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+      [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', fontFamily: '"Roboto", sans-serif !important',color : 'wheat', bgcolor: '#131630' },
     }}
   >
     <Toolbar />

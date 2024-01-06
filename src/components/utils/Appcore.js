@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './Navbar';
 import Appdrawer from './Appdrawer';
-import { useNavigate } from 'react-router-dom';
+import { styled, useTheme } from '@mui/material/styles';
 import Userbody from '../userBody';
 import Admin from '../admin/admin';
 import Swal from 'sweetalert2';
@@ -11,6 +11,7 @@ import axios from 'axios';
 import { api } from '../../util';
 import { toast } from 'react-toastify';
 import { Context } from './context';
+// import DraweerH
 
 export default function Apputil() {
   const [page,setPage] = useState(0)
@@ -19,7 +20,7 @@ export default function Apputil() {
   const [menu,setMenu] = useState('Dashboard')
   const [fields,setFields] = useState([])
   const [uploads,setUploads] = useState([])
-
+  const [dopen,setDopen] = useState(true)
   useEffect(()=>{
     if(sessionStorage.getItem('un')??false)
     { 
@@ -84,13 +85,32 @@ const getIcon = (cl)=>{
   return "info"
 }
   return (
-    <Box sx={{ display: 'flex' }}>
-       <Navbar token={signin}/>
-      <Appdrawer status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page}  setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
-     <Context.Provider value={{fields,uploads}}>
+    <Box sx={{
+      flexGrow: 1,
+      transition: 'margin-left 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
+      marginLeft: dopen ? '170px' : '0', // Adjust the width based on the drawer state
+    }}>
+       <Navbar dopen={dopen} setDopen={(v)=>{setDopen(v)}}/>
+       <Appdrawer dopen={dopen} status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page}  setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
+       <Box open={dopen}>
+       <Context.Provider value={{fields,uploads, dopen}}>
+       {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody popup={()=>popup()} uds={uploads} tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+       </Context.Provider>
+       </Box>
+    {/* <div className='row'>
+      <div className='col-lg-2'>
+    
+     </div>
+      <div className='col-lg-10'>
+        TTTT
+      </div> */}
+      
+      {/* <Appdrawer status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page}  setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/> */}
+     {/* <Context.Provider value={{fields,uploads}}>
      {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody popup={()=>popup()} uds={uploads} tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
       {signin && signin.role=='admin' && <Box sx={{ display: 'flex' }}><CssBaseline /><Admin adraw={adminMenu} menu={menu}/></Box>}
-      </Context.Provider>
+      </Context.Provider> */}
+   {/* </div> */}
    </Box>
   );
 }
