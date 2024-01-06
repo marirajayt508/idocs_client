@@ -129,7 +129,7 @@ else
     <div className="toggle">
       <div className="toggle-panel toggle-right">
         <h1>iDocs</h1>
-        <p>Verification made easily</p>
+        <p>Verification made easy</p>
         <button className="hidden" id="register">Learn more</button>
       </div>
     </div>

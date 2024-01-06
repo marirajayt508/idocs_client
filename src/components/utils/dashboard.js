@@ -28,7 +28,7 @@ useEffect(()=>{
   setPs(pending)
   setFields(tdatas)
   setTable(tdatas)
-},[])
+},[tdatas])
 const upending = tdatas.filter((val)=>{
   return val.status.toLowerCase().includes('upending')
  })
