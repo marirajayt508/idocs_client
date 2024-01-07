@@ -11,6 +11,7 @@ import axios from 'axios';
 import { api } from '../../util';
 import { toast } from 'react-toastify';
 import { Context } from './context';
+import { useNavigate } from 'react-router-dom';
 // import DraweerH
 
 export default function Apputil() {
@@ -21,6 +22,8 @@ export default function Apputil() {
   const [fields,setFields] = useState([])
   const [uploads,setUploads] = useState([])
   const [dopen,setDopen] = useState(true)
+
+  const navigate = useNavigate()
   useEffect(()=>{
     if(sessionStorage.getItem('un')??false)
     { 
@@ -40,6 +43,7 @@ export default function Apputil() {
     })
     .catch((e)=>{
       toast.error("Network Error, Try Again")
+      navigate('/login')
     })
   },[])
   //upending, apending, approved, rejected

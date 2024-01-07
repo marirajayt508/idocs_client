@@ -14,13 +14,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { Table, Select, MenuItem, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 export default function Basicdetails({ d }) {
     const [fields, setFields] = useState([]);
     const cstate = useContext(Context);
     const [open,setOpen] = useState(false)
     const [table,setTable] = useState([])
-
+const navigate = useNavigate()
     useEffect(() => {
         setFields(cstate.fields);
         setTable(cstate.fields)
@@ -69,7 +70,8 @@ export default function Basicdetails({ d }) {
     const handleFileUpload = (event,name,ind) => {
         setOpen(true)
         const file = event.target.files[0];
-                const fd = new FormData();
+        if(file.type.includes('pdf'))
+{                const fd = new FormData();
                 fd.append('username',sessionStorage.getItem('un'))
                 fd.append('filename',name)
                         fd.append('file',file)
@@ -78,11 +80,19 @@ export default function Basicdetails({ d }) {
             //  tu[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
              axios.post(api+"users/access/",fd,{ headers: { 'Content-Type': 'multipart/form-data'}},).then((res)=>{
             setOpen(false)
+            toast.success("File Uploaded and Saved Successfully")
            }).catch((err)=>{
             setOpen(false)
-            console.log(err)
+            toast.error("Network Error, Try Again")
+            navigate("/login")
            })
-        //    axios.put(api+"save/setuplod",{
+}   
+else
+{
+toast.error("Please Upload PDF File")
+setOpen(false)
+}
+//    axios.put(api+"save/setuplod",{
         //     "_id" : sessionStorage.getItem("un"),
         //     uploads
         //  }).catch((e)=>{
@@ -93,7 +103,6 @@ export default function Basicdetails({ d }) {
 
       const showComment = (cmnt,name)=>{
         Swal.fire({
-          icon: "error",
           text: cmnt,
         });
       }
@@ -126,15 +135,6 @@ export default function Basicdetails({ d }) {
 <br/>
     <TableContainer sx={{width : '1000px'}} component={Paper}>
       <Table>
-        {/* <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>
-             Status
-            </TableCell>
-          </TableRow>
-        </TableHead> */}
         <TableBody>
           {table.length? table.map((v,ind) => (
             <TableRow key={v.id}>
@@ -190,5 +190,18 @@ export default function Basicdetails({ d }) {
         </TableBody>
       </Table>
     </TableContainer>
+    <Dialog
+        open={open}
+        onClose={()=>setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" className='text-center'>
+          <span class="spinner-border text-primary small" role="status"/> <br/>
+Uploading Please Wiat...
+         </DialogContentText>
+         </DialogContent>
+      </Dialog>
     </div>
 }

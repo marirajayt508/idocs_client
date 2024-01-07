@@ -147,7 +147,7 @@ tdatas.map((v)=>{
         <DialogActions>
 {    !(status.fieldValue==status.fieldLength) ? <Box>    <small className='text-primary fw-bold p-3'>
           {
-            status.dr && status.sp ? 'Please complete or update the above data before submitting.' : 'Please review the document or data before submission, as some may be subject to rejection.'
+         ! (  status.dr && status.sp) ? 'Please complete or update the above data before submitting.' : 'Please review the document or data before submission, as some may be subject to rejection.'
           }
           </small>
           <div>

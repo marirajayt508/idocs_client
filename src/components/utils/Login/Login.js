@@ -99,7 +99,6 @@ else
     <div className='form' >
       <h1>Login</h1>
       <input type="email" placeholder="Email"             id="username"
-            value={sessionStorage.getItem('un')}
             style={{border : ie }}
             onChange={(e)=>{
               setIe('none')

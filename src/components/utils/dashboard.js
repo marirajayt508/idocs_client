@@ -51,7 +51,7 @@ const upending = tdatas.filter((val)=>{
    c = isFinite(c) ? c : 0;
  let a = fields.filter((v)=>  v.status.toLowerCase().includes('approved') ).length;
  let ap = (a/fields.length)*100;
- ap = ap?ap:100;
+//  ap = ap?ap:100;
  ap = isFinite(ap)?ap:0;
 
     const chart_datas = {
@@ -139,9 +139,7 @@ const cardStyle = {
 </div>
         </Typography>
       </CardContent>
-      <CardActions>
-       <Button onClick={()=>setOpen(true)}> View More</Button>
-      </CardActions>
+
     </Card>
     <br/>
     <Typography variant="body1" style={{ width: '300px', height: '300px' }} className="text-center">
@@ -159,6 +157,7 @@ const cardStyle = {
         </Typography>
       </CardContent>
       <CardActions>
+       <Button onClick={()=>setOpen(true)}> View More</Button>
       </CardActions>
     </Card>
     <br/>
@@ -169,7 +168,7 @@ const cardStyle = {
             <TableCell>Field Name</TableCell>
             <TableCell className="text-center">
             <select className="text-center" onChange={(e)=>filterTable(e.target.value)} style={{height : '30px', width : '70%', border : "none", outline : 'none'}}>
-  <option value='all'> All </option>
+  <option value='all'> Status All </option>
   <option value="upending"> Submission Pending </option>
   <option value="apending"> Approval Pending </option>
   <option value="approved"> Approved </option>
