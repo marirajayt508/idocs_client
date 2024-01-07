@@ -66,13 +66,13 @@ console.log(motp)
             <ListItemButton>
             {text.toLowerCase().includes('dashboard') && <i class="fa-solid fa-gauge"></i>} 
             {text.toLowerCase().includes('users') && <i class="fa-solid fa-users"></i>} 
-            {text.toLowerCase().includes('pending') && <i class="fa-solid fa-clock"></i>} 
-            {text.toLowerCase().includes('galary') && <i class="fa-solid fa-folder"></i>} 
+            {text.toLowerCase().includes('pendings') && <i class="fa-solid fa-clock"></i>} 
+            {text.toLowerCase().includes('documents') && <i class="fa-solid fa-folder"></i>} 
             {text.toLowerCase().includes('settings') && <i class="fa-solid fa-gear"></i>} 
             &nbsp;&nbsp;
               <ListItemText primary={text} />
               {
-                text.trim().toLowerCase()=="pendingapproval" && <Badge badgeContent={4} color="primary"/>
+                text.trim().toLowerCase()=="pendings" && <Badge badgeContent={4} color="primary"/>
               }
             </ListItemButton>
           </ListItem>
@@ -112,7 +112,7 @@ console.log(motp)
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-      { !(status.fieldValue==status.fieldLength) && <DialogTitle id="alert-dialog-title">
+      { (status.fieldValue==status.fieldLength) && <DialogTitle id="alert-dialog-title">
           OTP
         </DialogTitle>}
         <DialogContent style={{width : "100%"}}>

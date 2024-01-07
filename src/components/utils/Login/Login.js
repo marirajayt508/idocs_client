@@ -52,7 +52,7 @@ const signin = ()=>{
   if(verify)
   {
  
-    axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp')}).then((res)=>{  
+    axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp'), role : sessionStorage.getItem('role')}).then((res)=>{  
       if(res.data.status.value??false)
         {
           setIp('1px solid red')
@@ -67,6 +67,7 @@ const signin = ()=>{
       }
       setLoading(false)
     }).catch((err)=>{
+      console.log("I AM FROM ERR")
       setIe('1px solid red')
       setLoading(false)
     })
@@ -89,6 +90,7 @@ else
     setLoading(false)
 }).catch((err)=>{
   setIe('1px solid red')
+  console.log("I AM FROM ERR")
   setLoading(false)
 })
 }

@@ -35,7 +35,8 @@ export default function Apputil() {
   setsignin(signdata)
     }
     axios.post(api+"save/get/",{
-      _id : sessionStorage.getItem('un')
+      _id : sessionStorage.getItem('un'),
+      role : sessionStorage.getItem('role')
     })
     .then((res)=>{
       setFields(res.data.datas.fields)
@@ -47,22 +48,26 @@ export default function Apputil() {
     })
   },[])
   //upending, apending, approved, rejected
- 
-
-let tdatas =[...fields]
+ const role = sessionStorage.getItem('role')
+ const userMenu = ["Dashboard","Basic Details"]
+ const adminMenu = ['Dashboard', 'Manage Users', 'Pendings',"Documents","Settings"]
+ let status = {}
+ let tdatas = []
+if(role == 'user')
+{
+tdatas =[...fields]
 const up = tdatas.filter(field => field.status.toLowerCase().includes('upending')).length
 const ap = tdatas.filter(field => field.status.toLowerCase().includes('apending')).length
 const dr = tdatas.filter(field => field.status.toLowerCase().includes('reject')).length
 const da = tdatas.filter(field => field.status.toLowerCase().includes('approved')).length
 const sp = fields.filter(field => field.value != '' && field.status.toLowerCase().includes('upending')).length
-const fieldValue =  fields.filter(field => field.value != '' && field.mandate).length
+const fieldValue =  fields.filter(field => field.value != '').length
 const fieldLength = fields.length
 // const uploadValue = uploads.filter(upload => upload.value != '' && upload.mandate).length
 // const uploadLength = uploads.length
 
-  const userMenu = ["Dashboard","Basic Details"]
-  const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Document Galary","Settings"]
-  let status = {up,ap,dr,da,sp,
+
+  status = {up,ap,dr,da,sp,
   tf : fields.length,
   fieldValue,
   fieldLength,
@@ -87,7 +92,7 @@ const getHtml = (cl)=>{
 }
 const getIcon = (cl)=>{
   return "info"
-}
+}}
   return (
     <Box sx={{
       flexGrow: 1,
@@ -95,10 +100,11 @@ const getIcon = (cl)=>{
       marginLeft: dopen ? '170px' : '0', // Adjust the width based on the drawer state
     }}>
        <Navbar dopen={dopen} setDopen={(v)=>{setDopen(v)}}/>
-       <Appdrawer dopen={dopen} status={status} tdatas={tdatas} udraw={userMenu} adraw={adminMenu} isUpload={isup} token={signin} menu={menu} page={page}  setmenu={(v)=>setMenu(v)} setpage={(v)=>setPage(v)}/>
+       <Appdrawer dopen={dopen} status={status}  udraw={userMenu} adraw={adminMenu}  token={signin} menu={menu} setmenu={(v)=>setMenu(v)} tdatas={tdatas}/>
        <Box open={dopen}>
        <Context.Provider value={{fields,uploads, dopen}}>
-       {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody popup={()=>popup()} uds={uploads} tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu} isup={isup} setisup={(v)=>setisup(v)} page={page} datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+       {signin && signin.role=='user' && <Box sx={{ display: 'flex' }}><CssBaseline /> <Userbody tdatas={tdatas} status={status} fields={fields} uploads={uploads} udraw={userMenu}  menu={menu}  datas={signin} username={signin.username} setpage={(v)=>setPage(v)}/></Box>}
+       {signin && signin.role=='admin' && <Box sx={{ display: 'flex' }}><CssBaseline />I AM FROM ADMIN</Box>}
        </Context.Provider>
        </Box>
     {/* <div className='row'>

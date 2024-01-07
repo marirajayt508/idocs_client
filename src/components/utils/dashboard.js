@@ -53,17 +53,17 @@ const upending = tdatas.filter((val)=>{
  let ap = (a/fields.length)*100;
 //  ap = ap?ap:100;
  ap = isFinite(ap)?ap:0;
-
+c=Math.ceil(c)
     const chart_datas = {
-        labels: ['Approved', 'Pending'],
+        labels: ['Completed', 'Pending'],
         datasets: [
           {
             label: 'Basic Details',
-            data: [ap,(100-ap)],
+            data: [c,(100-c)],
             backgroundColor: [
   // 'rgba(75, 192, 192, 0.2)',
   // 'rgba(255, 206, 86, 0.2)'
-  'lightgreen','lightcoral'
+  'lightgreen','white'
             ],
             borderColor: [
                 'rgba(75, 192, 192, 1)',
@@ -130,8 +130,12 @@ const cardStyle = {
           <br/>
       <div className="row">
         <div className="col-md-6">
+    <Typography variant="body1" style={{ width: '700px', height: '400px' }} className="text-center">
+        <Doughnut  data={chart_datas} options={options} plugins={[ChartDataLabels]} />
+        </Typography>
+        <br/>
         <Card>
-      <CardHeader title={`${c}% Data Saved`} style={{ backgroundColor: '#e4e8e5', color: 'black', width: '500px' }} />
+      <CardHeader title={`${c}% Data Saved`} style={{ backgroundColor: 'lightyellow', color: 'black', width: '500px' }} />
       <CardContent>
         <Typography variant="body1">
         <div class="progress">
@@ -141,10 +145,53 @@ const cardStyle = {
       </CardContent>
 
     </Card>
-    <br/>
-    <Typography variant="body1" style={{ width: '300px', height: '300px' }} className="text-center">
-        <Doughnut  data={chart_datas} options={options} plugins={[ChartDataLabels]} />
-        </Typography>
+        {/* <br/>
+        <table className="table table-striped">
+          <tbody>
+            <tr>
+              <td className="text text-warning">Pending with you</td>
+              <td>
+              <span className="badge badge-warning p-2">{status.up}</span>
+               </td>
+            </tr>
+            <tr>
+              <td className="text text-primary">Pending with Admin</td>
+              <td>
+              <span className="badge badge-primary p-2">{status.ap}</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="text text-success">Approved by Admin</td>
+              <td>
+              <span className="badge badge-success p-2">{status.da}</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="text text-danger">Rejected by Admin</td>
+              <td>
+              <span className="badge badge-danger p-2">{status.dr}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table> */}
+{/* {     table.map(cl=> {
+  return <Card>
+  <CardContent>
+<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+{cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning" onClick={()=>setPs(upending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+{cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary" onClick={()=>setPs(apending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+{cl.name.toLowerCase().includes('approved') &&<span className="text text-success" onClick={()=>setPs(approved)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+{cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger" onClick={()=>setPs(rejected)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+</Typography>
+<Typography  component="div" style={{width: '300px'}}>
+{cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
+{cl.name.toLowerCase().includes('approval pending') && <span className="text-primary"> &nbsp;{status.ap}</span>}
+{cl.name.toLowerCase().includes('approved') && <span className="text-success"> &nbsp;{status.da}</span>}
+{cl.name.toLowerCase().includes('rejected') && <span className="text-danger"> &nbsp;{status.dr}</span>}
+</Typography>
+</CardContent>
+</Card>
+})   } */}
     </div>
     <div className="col-md-6">
     <Card>
@@ -198,6 +245,12 @@ const cardStyle = {
       <DialogContent>
         <table className="table table-striped">
           <tbody>
+          <tr>
+              <td className="text text-info">Saved by you</td>
+              <td>
+              <span className="badge badge-info p-2">{status.fieldValue}</span>
+               </td>
+            </tr>
             <tr>
               <td className="text text-warning">Pending with you</td>
               <td>

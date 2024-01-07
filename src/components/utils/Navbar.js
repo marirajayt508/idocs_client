@@ -29,11 +29,11 @@ export default function Navbar({setDopen,dopen})
       <Typography variant="h6"  noWrap component="div">
      <Button sx={{fontWeight : "bold", color : 'wheat'}} onClick={()=>toggle()}><i className={`fa-solid ${dopen? 'fa-angles-left' : 'fa-bars'}`}></i> &nbsp;&nbsp;<span>iDocs</span></Button>  
        </Typography>
-       <Tooltip title="Chat with Admin">
+     {sessionStorage.getItem('role')=='user' && <Tooltip title="Chat with Admin">
        <Box sx={{position : 'absolute', right:'100px', cursor: 'pointer'}}>
           <i class="fa-solid fa-comment" sx={{color : "wheat"}}></i>
         </Box>
-        </Tooltip> 
+        </Tooltip> }
        <Tooltip title="Logout">
        <Box sx={{position : 'absolute', right:'60px', cursor: 'pointer'}}> 
        <i class="fa-solid fa-power-off" sx={{color : "wheat"}} onClick={()=>{
@@ -41,13 +41,21 @@ export default function Navbar({setDopen,dopen})
         }}/> 
         </Box> 
         </Tooltip> 
-        <Tooltip title={sessionStorage.getItem('un').toLocaleUpperCase().slice(0,-5)}>
+ {  sessionStorage.getItem('role')=='user' &&     <Tooltip title={sessionStorage.getItem('un').toLocaleUpperCase().slice(0,-5)}>
        <Box sx={{position : 'absolute', right:'20px', cursor: 'pointer'}}> 
        <i class="fa-solid fa-user" sx={{color : "wheat"}} onClick={()=>{
           console.log('test')
         }}/> 
         </Box> 
-        </Tooltip> 
+        </Tooltip> }
+        {  sessionStorage.getItem('role')=='admin' &&     <Tooltip title={'Admin'}>
+       <Box sx={{position : 'absolute', right:'20px', cursor: 'pointer'}}> 
+       {/* <i class="fa-solid fa-calender" sx={{color : "wheat"}} onClick={()=>{
+          console.log('test')
+        }}/>  */}
+        <i class="fa-solid fa-user"></i>
+        </Box> 
+        </Tooltip> }
     </Toolbar>
   </AppBar>
 }

@@ -79,7 +79,8 @@ const navigate = useNavigate()
             //  uploads[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
             //  tu[ind].value= `${sessionStorage.getItem('un').slice(0,-5)}/${name.toUpperCase()+"_"+sessionStorage.getItem('un').toUpperCase().slice(0,-5)}`
              axios.post(api+"users/access/",fd,{ headers: { 'Content-Type': 'multipart/form-data'}},).then((res)=>{
-            setOpen(false)
+          console.log(res)
+              setOpen(false)
             toast.success("File Uploaded and Saved Successfully")
            }).catch((err)=>{
             setOpen(false)
@@ -149,7 +150,7 @@ setOpen(false)
                                     label={n} />;
                             })}
 {
-    v.type == 'file' &&  <div>
+    v.type == 'file' && v.value =='' && <div>
     <label  className='btn btn-info' onClick={()=>(v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved'))} 
     // &&showAlert(v.name)
     htmlFor={`upload${v.name}`}>
@@ -165,11 +166,14 @@ setOpen(false)
     {/* {cfiles.indexOf(val.name)!=-1 && <lable>{val.name.toUpperCase()} uploaded</lable>} */}
   </div>
 }
-                                        {v.type == 'radio' && <RadioGroup defaultValue={v.value}>{v.options.map((n) => {
+{
+   v.type == 'file' && v.value !='' && <Button varient='contained'>{v.value}.pdf</Button>
+}
+                                        {v.type == 'radio' && <RadioGroup onChange={(e) => setText(e.target.value, ind)}  defaultValue={v.value}>{v.options.map((n) => {
                                 return <FormControlLabel disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} value={n} control={<Radio />} label={n} />;
                             })}</RadioGroup>}
-                            {v.type == 'select' && <select disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} class="form-select" id="selectOption">
-                                <option selected={v.value == ''}>Select One</option>
+                            {v.type == 'select' && <select onChange={(e) => setText(e.target.value, ind)}  disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} class="form-select" id="selectOption">
+                                <option value={''} selected={v.value == ''}>Select One</option>
                                 {v.options.map((opt) => {
                                     return <option selected={v.value == opt} value={opt}>{opt}</option>;
                                 })}
@@ -183,7 +187,7 @@ setOpen(false)
                             {/* {v.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
               </TableCell>
               <TableCell>
-              {v.status.toLowerCase().includes('rejected') && <div className="btn btn-danger" onClick={()=>showComment(v.comments,v.name.toUpperCase())}><i class="fa-regular fa-eye"></i> View</div>}
+              {v.status.toLowerCase().includes('rejected') && <div className="btn btn-danger" onClick={()=>showComment(v.comments,v.name.toUpperCase())}><i class="fa-regular fa-eye"></i> View</div>} {v.value !='' && <Button className='text-danger'>Reset</Button>}
               </TableCell>
             </TableRow>
           )): <TableRow><TableCell colSpan={4}><span className='text text-danger fw-bold col-md-6 text-center'><i class="fa-solid fa-mug-hot"></i> {`TAKE A CUP OF COFFE, NO FIELDS HERE WHICH YOU TRY TO FIND.`}.</span></TableCell></TableRow>}
