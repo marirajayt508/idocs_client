@@ -1,9 +1,6 @@
 import { Button, Divider } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import React, { useState, useEffect, useContext } from 'react';
-import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -15,15 +12,18 @@ import { toast } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import { Table, Select, MenuItem, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography } from '@mui/material';
+import Swal from 'sweetalert2';
 
 export default function Basicdetails({ d }) {
     const [fields, setFields] = useState([]);
     const cstate = useContext(Context);
     const [open,setOpen] = useState(false)
-    const [select,setSelect] = useState('all')
+    const [table,setTable] = useState([])
 
     useEffect(() => {
         setFields(cstate.fields);
+        setTable(cstate.fields)
     }, []);
 
     function useThrottle(callback, delay) {
@@ -91,46 +91,59 @@ export default function Basicdetails({ d }) {
     
       } 
 
-      const showComment = (cmnt)=>{
-            alert(cmnt)
+      const showComment = (cmnt,name)=>{
+        Swal.fire({
+          icon: "error",
+          text: cmnt,
+        });
       }
 
       const filterTable=(value)=>{
         if(!value.toLowerCase().includes('all'))
     {    let temp = fields.filter((v)=>{
             return v.status == value}) 
-        setFields(temp)
+        setTable(temp)
       }
     else
     {
-        setFields(cstate.fields)
+        setTable(fields)
     }
     }
-
-    return <Box component="main" sx={{ p: 1 }}>
-        {/* <button onClick={()=>console.log(d)}>TETS</button> */}
-        <Paper sx={{ p: 2, width: "1000px" }}>
-            <small className='fw-bold'><i class="fa-solid fa-user"></i> USER FORM</small> 
-            <div style={{ 'border': '1px solid grey', 'width': '90px' }} />
-            <div style={{float : 'right'}}>
-<select className="text-center" onChange={(e)=>filterTable(e.target.value)} style={{height : '30px', width : '100%'}}>
-  <option value='all'> All </option>
+    return <div style={{padding : "10px"}}>
+              <Typography variant="h6" style={{ fontFamily: 'Montserrat', fontSize: '24px'}}>
+           User Form
+          </Typography>
+          <div style={{ 'border': '1px solid grey', 'width': '150px' }} />
+          <br/>
+          <select className="text-center" onChange={(e)=>filterTable(e.target.value)} style={{height : '30px', width : '20%', border : "none", outline : 'none'}}>
+  <option value='all'> Status All </option>
   <option value="upending"> Submission Pending </option>
   <option value="apending"> Approval Pending </option>
   <option value="approved"> Approved </option>
   <option value="rejected"> Rejected </option>
 </select> 
-</div>
-            <Divider />
-            <Box sx={{ p: 3 }}>
-                {fields.length ?fields.map((v, ind) => {
-                    return <div className='row p-3'>
-                        <div className='col-md-3'>
-                            {v.mandate && <span className='text-danger  fw-bolder'>* </span>}
-                            {v.name}
-                        </div>
-                        <div className='col-md-3'>
-                            {v.type == 'check' && v.options.map((n) => {
+<br/>
+<br/>
+    <TableContainer sx={{width : '1000px'}} component={Paper}>
+      <Table>
+        {/* <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>
+             Status
+            </TableCell>
+          </TableRow>
+        </TableHead> */}
+        <TableBody>
+          {table.length? table.map((v,ind) => (
+            <TableRow key={v.id}>
+              <TableCell>
+              {v.mandate && <span className='text-danger  fw-bolder'>* </span>}
+                {v.name}
+                </TableCell>
+                <TableCell>
+                {v.type == 'check' && v.options.map((n) => {
                                 return <FormControlLabel disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')}
                                     control={<Checkbox name={n} defaultChecked={n == v.value} />}
                                     label={n} />;
@@ -162,39 +175,20 @@ export default function Basicdetails({ d }) {
                                 })}
                             </select>}
                             {v.type == 'text' && <Input placeholder={`Enter your ${v.name}`} onChange={(e) => setText(e.target.value, ind)} defaultValue={v.value} disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} />}
-                        </div>
-                        <div className='col-md-3 text-center'>
-                            {v.status.toLowerCase().includes('approved') && <Typography sx={{ fontSize: 14 }} className={`text-${v.status.toLowerCase().includes('approved') && 'success'}`} gutterBottom><i class="fa-solid fa-check"></i> <span>Approved</span> </Typography>}
+                </TableCell>
+              <TableCell>
+              {v.status.toLowerCase().includes('approved') && <Typography sx={{ fontSize: 14 }} className={`text-${v.status.toLowerCase().includes('approved') && 'success'}`} gutterBottom><i class="fa-solid fa-check"></i> <span>Approved</span> </Typography>}
                             {v.status.toLowerCase().includes('rejected') && <Typography sx={{ fontSize: 14 }} className={`text-${v.status.toLowerCase().includes('rejected') && 'danger'}`} gutterBottom><i class="fa-solid fa-xmark"></i> <span>Rejected</span> </Typography>}
                             {/* {v.status.toLowerCase().includes('apending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'primary'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Approval Pending</span> </Typography>} */}
                             {/* {v.status.toLowerCase().includes('upending')&&<Typography sx={{ fontSize: 14 }}  className={`text-${v.status.toLowerCase().includes('apending') && 'warning'}`} gutterBottom><i class="fa-solid fa-clock"></i> <span>Submission Pending</span> </Typography>} */}
-                        </div>
-                        <div className='col-md-3 text-center'>
-                            {v.status.toLowerCase().includes('rejected') && <div className="btn btn-danger" onClick={()=>showComment(v.comments)}><i class="fa-regular fa-eye"></i> View</div>}
-                        </div>
-                    </div>;
-                }) : <span className='text text-danger fw-bold col-md-6 text-center'><i class="fa-solid fa-mug-hot"></i> {`TAKE A CUP OF COFFE, NO FIELDS HERE WHICH YOU TRY TO FIND.`}.</span>}
-            </Box>
-            {/* <Box sx={{ textAlign: 'center' }}>
-                <Button onClick={() => {
-                    save();
-                }} variant='contained' color={'warning'}><i class="fa-solid fa-floppy-disk"></i> &nbsp; save</Button>
-            </Box>
-            <br /> */}
-            <small className='text text-primary'>Note: All Files and Values are Auto Saved.</small>
-        </Paper>
-        <Dialog
-        open={open}
-        onClose={()=>setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description" className='text-center'>
-          <span class="spinner-border text-primary small" role="status"/> <br/>
-Uploading Please Wiat...
-         </DialogContentText>
-         </DialogContent>
-      </Dialog>
-    </Box>;
+              </TableCell>
+              <TableCell>
+              {v.status.toLowerCase().includes('rejected') && <div className="btn btn-danger" onClick={()=>showComment(v.comments,v.name.toUpperCase())}><i class="fa-regular fa-eye"></i> View</div>}
+              </TableCell>
+            </TableRow>
+          )): <TableRow><TableCell colSpan={4}><span className='text text-danger fw-bold col-md-6 text-center'><i class="fa-solid fa-mug-hot"></i> {`TAKE A CUP OF COFFE, NO FIELDS HERE WHICH YOU TRY TO FIND.`}.</span></TableCell></TableRow>}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </div>
 }

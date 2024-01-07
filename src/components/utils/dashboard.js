@@ -14,6 +14,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import LinearProgress from '@mui/material/LinearProgress';
 import CardHeader from '@mui/material/CardHeader';
+import DialogTitle from "@mui/material/DialogTitle";
 import CardActions from '@mui/material/CardActions';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -47,11 +48,12 @@ const upending = tdatas.filter((val)=>{
   let role = sessionStorage.getItem('role');
   let completed = fields.filter((v)=>  v.value!='' )
    let c = (completed.length/fields.length)*100;
-   let p = 100 - c
-  //  p = isFinite(p)?p:100
+   c = isFinite(c) ? c : 0;
  let a = fields.filter((v)=>  v.status.toLowerCase().includes('approved') ).length;
  let ap = (a/fields.length)*100;
  ap = ap?ap:100;
+ ap = isFinite(ap)?ap:0;
+
     const chart_datas = {
         labels: ['Approved', 'Pending'],
         datasets: [
@@ -120,12 +122,6 @@ const cardStyle = {
   width: '500px', // Set the desired width here
   marginBottom: '20px', // Adjust margin as needed
 };
-const data = [
-  { name: 'John Doe', age: 25},
-  { name: 'Jane Smith', age: 30},
-  { name: 'Bob Johnson', age: 22},
-];
-console.log(table)
     return <Box sx={{p :3}}>
           <Typography variant="h6" style={{ fontFamily: 'Montserrat', fontSize: '24px'}}>
             Dashboard
@@ -135,14 +131,16 @@ console.log(table)
       <div className="row">
         <div className="col-md-6">
         <Card>
-      <CardHeader title="Saved" style={{ backgroundColor: '#e4e8e5', color: 'black', width: '500px' }} />
+      <CardHeader title={`${c}% Data Saved`} style={{ backgroundColor: '#e4e8e5', color: 'black', width: '500px' }} />
       <CardContent>
         <Typography variant="body1">
-        <LinearProgress variant="determinate" value={c} />
+        <div class="progress">
+  <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style={{width: c+"%"}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
         </Typography>
       </CardContent>
       <CardActions>
-  <small>{c} Data Saved</small>
+       <Button onClick={()=>setOpen(true)}> View More</Button>
       </CardActions>
     </Card>
     <br/>
@@ -151,7 +149,20 @@ console.log(table)
         </Typography>
     </div>
     <div className="col-md-6">
-    <TableContainer sx={{width : '140%'}} component={Paper}>
+    <Card>
+      <CardHeader title={`${ap}% Data Approved`} style={{ backgroundColor: '#e4e8e5', color: 'black', width: '500px' }} />
+      <CardContent>
+        <Typography variant="body1">
+        <div class="progress">
+  <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style={{width: ap+'%', height :'300px'}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50</div>
+</div>
+        </Typography>
+      </CardContent>
+      <CardActions>
+      </CardActions>
+    </Card>
+    <br/>
+    <TableContainer sx={{width : '100%'}} component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
@@ -184,5 +195,40 @@ console.log(table)
     </TableContainer>
     </div>
     </div>
+    <Dialog onClose={()=>setOpen(false)} open={open}>
+      <DialogContent>
+        <table className="table table-striped">
+          <tbody>
+            <tr>
+              <td className="text text-warning">Pending with you</td>
+              <td>
+              <span className="badge badge-warning p-2">{status.up}</span>
+               </td>
+            </tr>
+            <tr>
+              <td className="text text-primary">Pending with Admin</td>
+              <td>
+              <span className="badge badge-primary p-2">{status.ap}</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="text text-success">Approved by Admin</td>
+              <td>
+              <span className="badge badge-success p-2">{status.da}</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="text text-danger">Rejected by Admin</td>
+              <td>
+              <span className="badge badge-danger p-2">{status.dr}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={()=>setOpen(false)}>Close</Button>
+      </DialogActions>
+    </Dialog>
     </Box>
 }

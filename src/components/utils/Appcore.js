@@ -50,7 +50,7 @@ const up = tdatas.filter(field => field.status.toLowerCase().includes('upending'
 const ap = tdatas.filter(field => field.status.toLowerCase().includes('apending')).length
 const dr = tdatas.filter(field => field.status.toLowerCase().includes('reject')).length
 const da = tdatas.filter(field => field.status.toLowerCase().includes('approved')).length
-
+const sp = fields.filter(field => field.value != '' && field.status.toLowerCase().includes('upending')).length
 const fieldValue =  fields.filter(field => field.value != '' && field.mandate).length
 const fieldLength = fields.length
 // const uploadValue = uploads.filter(upload => upload.value != '' && upload.mandate).length
@@ -58,7 +58,7 @@ const fieldLength = fields.length
 
   const userMenu = ["Dashboard","Basic Details"]
   const adminMenu = ['Dashboard', 'Manage Users', 'Pending Approval',"Document Galary","Settings"]
-  let status = {up,ap,dr,da,
+  let status = {up,ap,dr,da,sp,
   tf : fields.length,
   fieldValue,
   fieldLength,
