@@ -167,7 +167,7 @@ setOpen(false)
   </div>
 }
 {
-   v.type == 'file' && v.value !='' && <Button varient='contained'>{v.value}.pdf</Button>
+   v.type == 'file' && v.value !='' && <Button varient="contained" style={{color : 'red'}}> <i class="fa-solid fa-trash"></i> &nbsp; {v.value.split("/")[1].split("_")[0]}.pdf</Button>
 }
                                         {v.type == 'radio' && <RadioGroup onChange={(e) => setText(e.target.value, ind)}  defaultValue={v.value}>{v.options.map((n) => {
                                 return <FormControlLabel disabled={v.status.toLowerCase().includes('apending') || v.status.toLowerCase().includes('approved')} value={n} control={<Radio />} label={n} />;

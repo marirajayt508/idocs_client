@@ -174,24 +174,24 @@ const cardStyle = {
             </tr>
           </tbody>
         </table> */}
-{/* {     table.map(cl=> {
-  return <Card>
-  <CardContent>
-<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-{cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning" onClick={()=>setPs(upending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-{cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary" onClick={()=>setPs(apending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-{cl.name.toLowerCase().includes('approved') &&<span className="text text-success" onClick={()=>setPs(approved)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-{cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger" onClick={()=>setPs(rejected)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
-</Typography>
-<Typography  component="div" style={{width: '300px'}}>
-{cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
-{cl.name.toLowerCase().includes('approval pending') && <span className="text-primary"> &nbsp;{status.ap}</span>}
-{cl.name.toLowerCase().includes('approved') && <span className="text-success"> &nbsp;{status.da}</span>}
-{cl.name.toLowerCase().includes('rejected') && <span className="text-danger"> &nbsp;{status.dr}</span>}
-</Typography>
-</CardContent>
-</Card>
-})   } */}
+  {/* {     table.map(cl=> {
+    return <Card>
+    <CardContent>
+  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+  {cl.name.toLowerCase().includes('submission pending') &&<span className="text text-warning" onClick={()=>setPs(upending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+  {cl.name.toLowerCase().includes('approval pending') &&<span className="text text-primary" onClick={()=>setPs(apending)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+  {cl.name.toLowerCase().includes('approved') &&<span className="text text-success" onClick={()=>setPs(approved)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+  {cl.name.toLowerCase().includes('rejected') &&<span className="text text-danger" onClick={()=>setPs(rejected)}><FontAwesomeIcon icon={cl.icon} /> {cl.name}</span>}
+  </Typography>
+  <Typography  component="div" style={{width: '300px'}}>
+  {cl.name.toLowerCase().includes('submission pending') && <span className="text-warning"> &nbsp;{status.up}</span>}
+  {cl.name.toLowerCase().includes('approval pending') && <span className="text-primary"> &nbsp;{status.ap}</span>}
+  {cl.name.toLowerCase().includes('approved') && <span className="text-success"> &nbsp;{status.da}</span>}
+  {cl.name.toLowerCase().includes('rejected') && <span className="text-danger"> &nbsp;{status.dr}</span>}
+  </Typography>
+  </CardContent>
+  </Card>
+  })   } */}
     </div>
     <div className="col-md-6">
     <Card>
