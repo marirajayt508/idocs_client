@@ -24,7 +24,7 @@ export default function Appdrawer({token,dopen,setmenu,menu,udraw,adraw,tdatas,s
   const [open,setOpen] = useState(false)
   const [motp,setMotp] =useState(0)
     const role = token.role;
-    const drawerWidth = 170;
+    const drawerWidth = 150;
     let nodata = tdatas.filter((item)=> item.value == '').length
     let mandate = tdatas.filter((item)=> item.mandate && item.value != '').length
     let approved = tdatas.filter((item)=> item.status.toLowerCase().includes('approved')).length
@@ -55,7 +55,7 @@ console.log(motp)
     sx={{
       width: drawerWidth,
       flexShrink: 0,
-      [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', fontFamily: '"Roboto", sans-serif !important',color : 'wheat', bgcolor: '#131630' },
+      [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', fontFamily: '"Roboto", sans-serif !important',color : 'wheat', bgcolor: '#131630', fontSize : "10px" },
     }}
   >
     <Toolbar />
@@ -70,7 +70,9 @@ console.log(motp)
             {text.toLowerCase().includes('documents') && <i class="fa-solid fa-folder"></i>} 
             {text.toLowerCase().includes('settings') && <i class="fa-solid fa-gear"></i>} 
             &nbsp;&nbsp;
-              <ListItemText primary={text} />
+            <Typography  sx={{fontSize : "15x" }}>
+              {text}
+            </Typography>
               {
                 text.trim().toLowerCase()=="pendings" && <Badge badgeContent={4} color="primary"/>
               }
@@ -89,7 +91,9 @@ console.log(motp)
            {text.toLowerCase().includes('basic') && <i class="fa-solid fa-pen"></i>}
            {text.toLowerCase().includes('upload') && <i class="fa-solid fa-upload"></i>}
            &nbsp; &nbsp;
-            <ListItemText primary={text} />
+            <Typography sx={{fontSize : "15px" }}>
+              {text}
+            </Typography>
             </ListItemButton>
           </ListItem>
         ))}

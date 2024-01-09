@@ -5,7 +5,7 @@ import Uploaddocuments from './Uploaddocs';
 import React,{useEffect,useState} from 'react';
 import axios from 'axios';
 import { api } from '../util';
-import Dashboard from './utils/Dashboard';
+import Dashboard from './utils/dashboard';
 
 export default function Userbody ({setpage,popup,menu,status,fields,tdatas,uds})
 {

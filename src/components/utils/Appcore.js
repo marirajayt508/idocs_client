@@ -12,6 +12,7 @@ import { api } from '../../util';
 import { toast } from 'react-toastify';
 import { Context } from './context';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 // import DraweerH
 
 export default function Apputil() {
@@ -43,7 +44,7 @@ export default function Apputil() {
       // setUploads(res.data.datas.uploads)
     })
     .catch((e)=>{
-      toast.error("Network Error, Try Again")
+    message.info("Login Again...")
       navigate('/login')
     })
   },[])

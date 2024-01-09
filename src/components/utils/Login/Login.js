@@ -13,6 +13,7 @@ import { api } from '../../../util';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import "./login.css"
+import { message } from 'antd';
 
 const theme = createTheme();
 
@@ -40,7 +41,6 @@ useEffect(()=>{
     sessionStorage.setItem('un',verifys.un)
     sessionStorage.setItem('otp',verifys.otp)
     sessionStorage.setItem('role',verifys.role)
-    console.log(verifys)
   }
    catch(e)
    {
@@ -55,6 +55,7 @@ const signin = ()=>{
     axios.post(api+'auth/login',{mail: sessionStorage.getItem('un'),otp: sessionStorage.getItem('otp'), role : sessionStorage.getItem('role')}).then((res)=>{  
       if(res.data.status.value??false)
         {
+          message.error("Invalid Password")
           setIp('1px solid red')
         }
         else
@@ -62,12 +63,12 @@ const signin = ()=>{
       sessionStorage.setItem('un',res.data.status._id)
         sessionStorage.setItem('role',res.data.status.role)
         sessionStorage.setItem('mail',res.data.status.mail)
-        // toast.success("Login Success")
+  message.success("Logedin Successfully...")
         navigate('/board')
       }
       setLoading(false)
     }).catch((err)=>{
-      console.log("I AM FROM ERR")
+     message.error("Invalid Email")
       setIe('1px solid red')
       setLoading(false)
     })
@@ -77,6 +78,7 @@ else
    axios.post(api+'auth/login',{mail,otp}).then((res)=>{
     if(res.data.status.value??false)
     {
+      message.error("Invalid Password")
       setIp('1px solid red')
     }
     else
@@ -84,13 +86,13 @@ else
     sessionStorage.setItem('un',res.data.status._id)
     sessionStorage.setItem('role',res.data.status.role)
     sessionStorage.setItem('mail',res.data.status.mail)
-    // toast.success("Login Success")
+    message.success("Logedin Successfully...")
     navigate('/board')
     }
     setLoading(false)
 }).catch((err)=>{
   setIe('1px solid red')
-  console.log("I AM FROM ERR")
+  message.error("Invalid Email")
   setLoading(false)
 })
 }

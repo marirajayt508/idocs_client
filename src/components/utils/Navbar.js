@@ -5,12 +5,14 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
+import { message } from 'antd';
 
 export default function Navbar({setDopen,dopen})
 {
   const navigate = useNavigate()
    const logout = ()=>{
     sessionStorage.clear()
+    message.success("Successfully Logedout...")
     navigate('/login')
    }
 
